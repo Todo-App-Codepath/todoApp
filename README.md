@@ -1,6 +1,3 @@
-Original App Design Project - README Template
-===
-
 # APP_NAME_HERE
 
 ## Table of Contents
@@ -72,13 +69,13 @@ Purpose: A todo list app that can be used to between a group of people to keep t
    * Login redirects to create account if the user does not have an account.
    * Once the user successfully logs in, they are redirected to List of Tasks screen
 * List of Tasks screen
-   * Will be included on bottom navbar along with Add a Task and Members screen
+   * Will be included on action navbar along with Add a Task and Members screen
    * Click on a task to navigate to a more details screen
 * Add a Task
-   * Will be included on bottom navbar along with List of Tasks and Members screen
+   * Will be included on action navbar along with List of Tasks and Members screen
    * Once a user creates a task and clicks submit navigate to List of Tasks screen
 * Members Screen
-   * Will be included on bottom navbar along with List of Tasks and Add a Task
+   * Will be included on action navbar along with List of Tasks and Add a Task
    * Click on a member to navigate to their profile and view their tasks
 
 ## Wireframes
