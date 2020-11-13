@@ -79,10 +79,11 @@ Purpose: A todo list app that can be used to between a group of people to keep t
    * Click on a member to navigate to their profile and view their tasks
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+### Note: we used a digital media to sketch the wireframes
+<img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/sketch_wireframes.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
+<img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/wireframes_of_app.png" width=600>
 
 ### [BONUS] Interactive Prototype
 
