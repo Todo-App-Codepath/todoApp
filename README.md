@@ -86,6 +86,7 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 <img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/wireframes_of_app.png" width=600>
 
 ### [BONUS] Interactive Prototype
+<img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/wireframes.gif" width=600>
 
 ## Schema 
 [This section will be completed in Unit 9]
