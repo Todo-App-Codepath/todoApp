@@ -91,31 +91,32 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 ## Schema 
 [This section will be completed in Unit 9]
 
-### Login Page:
-
-- READ user
-
-### Create an Account Page
-
-- CREATE user
-
-### Edit Profile Page 
-
-- UPDATE user
-
-### Task Page 
-
-- CREATE task
-- READ task
-
-### Member List:
-
-- READ members
-
 
 ### Models
 [Add table of models]
 ### Networking
+
+
+#### Login Page:
+
+- READ user
+
+#### Create an Account Page
+
+- CREATE user
+
+#### Edit Profile Page 
+
+- UPDATE user
+
+#### Task Page 
+
+- CREATE task
+- READ task
+
+#### Member List:
+
+- READ members
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
