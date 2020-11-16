@@ -100,10 +100,45 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 #### Login Page:
 
 - READ user
+```java
+ParseUser.logInInBackground(username, password, new LogInCallback() {
+    @Override
+        public void done(ParseUser user, ParseException e) {
+            if (e != null) {
+                Log.e(TAG, "Login Error", e);
+            }
+            // Successful Login
+                goMainActivity();
+            }
+});
+
+```
 
 #### Create an Account Page
 
 - CREATE user
+
+```java
+// Create the ParseUser
+ParseUser user = new ParseUser();
+user.setUsername(userName);
+user.setPassword(password);
+	
+user.signUpInBackground(new SignUpCallback() {
+    @Override
+    public void done(ParseException e) {
+        // Successful signup
+        if (e == null) {
+               // TODO: Action after successful signup
+        }
+        // Unsuccessful signup
+        else {
+                Log.e(TAG, "Signup error", e);
+                return;
+        }
+    }
+});
+```
 
 #### Edit Profile Page 
 
