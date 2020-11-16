@@ -117,7 +117,6 @@ ParseUser.logInInBackground(username, password, new LogInCallback() {
 #### Create an Account Page
 
 - CREATE user
-
 ```java
 // Create the ParseUser
 ParseUser user = new ParseUser();
@@ -143,11 +142,72 @@ user.signUpInBackground(new SignUpCallback() {
 #### Edit Profile Page 
 
 - UPDATE user
+```java
+// Update user
+ParseUser currentUser = ParseUser.getCurrentUser();
+if (currentUser != null) {
+    // Update profile image
+    currentUser.put("profileImage", new ParseFile(photoFile));
+    // Save profile image
+    currentUser.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e == null) {
+	    // Profile image change successful
+        } else {
+	   // Profile image change unsuccessful
+	}
+      }
+    });
+}  
+
+```
+
 
 #### Task Page 
 
 - CREATE task
+```java
+// As a sample, but Task can also be a class with setters/getters
+ParseObject task = new ParseObject("Task");
+task.put("name", "Buy Groceries");
+task.put("dueDate", date); // Date object
+task.put("description", "Buy milk, eggs, and butter");
+  
+task.saveInBackground(new SaveCallback() {
+    @Override
+    public void done(ParseException e) {
+        if (e != null) {
+            Log.e(TAG, "Task save error", e);
+         }
+            Log.i(TAG, "Saved task successfully");
+            }
+        });
+}
+
+```
 - READ task
+```java
+// As a sample with Task as a class
+ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+
+query.include(Task.KEY_NAME);
+query.include(Task.KEY_DUEDATE);
+query.include(Task.KEY_DESCRIPTION);
+query.findInBackground(new FindCallback<Task>() {
+	@Override
+        public void done(List<Task> tasks, ParseException e) {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting tasks", e);
+                    return;
+            } else {
+		   // Successfully retrieved tasks
+		  // TODO: Action after getting tasks
+	    }
+        }
+});
+
+```
 
 #### Member List:
 
