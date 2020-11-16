@@ -212,6 +212,20 @@ query.findInBackground(new FindCallback<Task>() {
 #### Member List:
 
 - READ members
+```java
+ParseQuery<ParseUser> query = ParseUser.getQuery();
+// Find users that equal a particular list / membership
+query.whereEqualTo("listID", 123456);
+query.findInBackground(new FindCallback<ParseUser>() {
+	public void done(List<ParseUser> users, ParseException e) {
+		if (e == null) {
+			// Found users that match the listID
+		} else {
+			// Error retrieving users
+      }
+    }
+});
+```
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
