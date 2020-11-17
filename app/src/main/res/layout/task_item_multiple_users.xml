@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:id="@+id/task_check_box2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="0dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/grouping_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/task_check_box2">
+
+        <ImageView
+            android:id="@+id/iv_profile_image_other_user2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="image of assigned user"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/iv_profile_image_top2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="image of assigned user"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_task_item_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/grouping_frame"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="24sp"
+        tools:text="Walk Dog" />
+
+    <TextView
+        android:id="@+id/tv_task_due_date2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_task_item_name2"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/grouping_frame"
+        tools:text="Due By 5/12/2020" />
+</RelativeLayout>
