@@ -95,7 +95,7 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 ### Models
 User
 | Property       | Type    | Description     |
-| :------------- | :----------: | -----------: |
+| :------------- | :----------: | :----------- |
 |  userID        | String       | unique id for the user (default field)    |
 |  name          | String       | user's prefered name |
 |  email         | String       | user's email for login |
@@ -104,20 +104,20 @@ User
 
 Group
 | Property       | Type    | Description     |
-| :------------- | :----------: | -----------: |
+| :------------- | :----------: | :----------- |
 |  groupID       | String       | unique id for the group (default field)   |
 |  name          | String       | name for the group |
 
 GroupsUsers  (Many to Many joint table)
 | Property       | Type    | Description     |
-| :------------- | :----------: | -----------: |
+| :------------- | :----------: | :----------- |
 |  groupuserID   | String       | unique id  (default field)  |
 |  userID        | String       | unique id for the user |
 |  groupID       | String       | unique id for the group |
 
 Task
 | Property       | Type    | Description     |
-| :------------- | :----------: | -----------: |
+| :------------- | :----------: | :----------- |
 |  taskID        | String       | unique id for the task (default field)   |
 |  name          | String       | name for the task |
 |  description   | String       | description of the task |
