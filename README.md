@@ -158,7 +158,21 @@ user.signUpInBackground(new SignUpCallback() {
     public void done(ParseException e) {
         // Successful signup
         if (e == null) {
-               // TODO: Action after successful signup
+               // Create new group 
+	       ParseObject group = new ParseObject("Group");
+	       group.saveInBackground(new SaveCallback <ParseObject>() {
+	       		if (e == null) {
+				// Add name to group
+				group.put("name", "The Addams Family"); // Group name
+	       
+			       // Add groupID and userID to groupUsers table.
+			       ParseObject groupsUsers = new ParseObject("GroupsUsers");
+			       groupsUsers.put("userID", ParseUser.getCurrentUser());
+			       groupsUsers.put("groupID, group.getObjectId());
+			}
+	       }
+	      
+	       // TODO: Action after successful signup
         }
         // Unsuccessful signup
         else {
@@ -193,7 +207,6 @@ if (currentUser != null) {
 
 ```
 
-
 #### Task Page 
 
 - CREATE task
@@ -203,6 +216,10 @@ ParseObject task = new ParseObject("Task");
 task.put("name", "Buy Groceries");
 task.put("dueDate", date); // Date object
 task.put("description", "Buy milk, eggs, and butter");
+
+task.put("userID", ParseUser.getCurrentUser()); // userID
+
+task.put("groupID", groupID); // create option for user to pick a group function
   
 task.saveInBackground(new SaveCallback() {
     @Override
@@ -221,9 +238,11 @@ task.saveInBackground(new SaveCallback() {
 // As a sample with Task as a class
 ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
 
-query.include(Task.KEY_NAME);
-query.include(Task.KEY_DUEDATE);
-query.include(Task.KEY_DESCRIPTION);
+query.include(Task.objectId);
+query.include(Task.dueDate);
+query.include(Task.description);
+query.include(Task.userID);
+query.include(Task.groupID);
 query.findInBackground(new FindCallback<Task>() {
 	@Override
         public void done(List<Task> tasks, ParseException e) {
@@ -245,11 +264,11 @@ query.findInBackground(new FindCallback<Task>() {
 ```java
 ParseQuery<ParseUser> query = ParseUser.getQuery();
 // Find users that equal a particular list / membership
-query.whereEqualTo("listID", 123456);
+query.whereEqualTo("groupID", 123456);
 query.findInBackground(new FindCallback<ParseUser>() {
 	public void done(List<ParseUser> users, ParseException e) {
 		if (e == null) {
-			// Found users that match the listID
+			// Found users that match the groupID
 		} else {
 			// Error retrieving users
       }
