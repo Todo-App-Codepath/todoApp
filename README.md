@@ -258,6 +258,44 @@ query.findInBackground(new FindCallback<Task>() {
 
 ```
 
+- READ members
+```java
+ParseQuery<ParseUser> query = ParseUser.getQuery();
+// Find users that equal a particular list / membership
+query.whereEqualTo("groupID", 123456);
+query.findInBackground(new FindCallback<ParseUser>() {
+	public void done(List<ParseUser> users, ParseException e) {
+		if (e == null) {
+			// Found users that match the groupID
+		} else {
+			// Error retrieving users
+      }
+    }
+});
+```
+
+- READ tasks of selected user 
+```java
+ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+
+query.include(Task.KEY_NAME);
+query.include(Task.KEY_DUEDATE);
+query.include(Task.KEY_DESCRIPTION);
+query.include(Task.KEY_CREATED_AT); 
+query.include(Task.KEY_USER, "KC3uBQkWOtKC3uBQkWOt");
+query.findInBackground(new FindCallback<Task>() {
+	@Override
+        public void done(List<Task> tasks, ParseException e) {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting tasks", e);
+                    return;
+            } else {
+		   // Successfully retrieved tasks
+		  // TODO: Action after getting tasks
+	    }
+        }
+});
+```
 #### Member List:
 
 - READ members
