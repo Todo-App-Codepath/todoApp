@@ -11,7 +11,6 @@
 Purpose: A todo list app that can be used to between a group of people to keep track of chores and assign chores to other group members.
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
 - **Category:** Productivity / Social Media
 - **Mobile:** This app would be primary developed for mobile but could be used across other platforms.
 - **Story:** Allows users to join a group and create, assign, and keep track of tasks within that group.
@@ -89,8 +88,6 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 <img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/wireframes.gif" width=600>
 
 ## Schema 
-[This section will be completed in Unit 9]
-
 
 ### Models
 User
@@ -313,6 +310,3 @@ query.findInBackground(new FindCallback<ParseUser>() {
     }
 });
 ```
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
