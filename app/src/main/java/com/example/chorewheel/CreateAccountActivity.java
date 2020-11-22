@@ -65,11 +65,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                     user.put("email", email);
                     user.put("firstName", firstName);
                     user.put("lastName", lastName);
-                    ParseUser newUser = ParseUser.getCurrentUser();
+                    //ParseUser newUser = ParseUser.getCurrentUser();
                     user.saveInBackground();
                     createGroup(group, user);
                     Toast.makeText(CreateAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
-                    goLoginActivity();
+                    finish();
                 }
                 else {
                     Toast.makeText(CreateAccountActivity.this, "Create Account Failed!", Toast.LENGTH_SHORT).show();
@@ -91,7 +91,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     // Reroute to login page once an account is created.
     private void goLoginActivity() {
-        Intent i = new Intent(this, MainActivity.class);    //change to LoginActivity once it's created.
+        Intent i = new Intent(this, LoginActivity.class);    //change to LoginActivity once it's created.
         startActivity(i);
     }
 }
