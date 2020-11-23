@@ -13,7 +13,7 @@
     android:padding="20dp">
 
     <ImageView
-        android:id="@+id/iv_profile_member"
+        android:id="@+id/ivMemberImage"
         android:layout_width="70dp"
         android:layout_height="70dp"
 
@@ -25,30 +25,30 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tv_member_profile_name"
+        android:id="@+id/tvMemberName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/iv_profile_member"
+        android:layout_toEndOf="@+id/ivMemberImage"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:text="John Doenut" />
 
     <TextView
-        android:id="@+id/tv_member_description"
+        android:id="@+id/tvMemberDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_member_profile_name"
+        android:layout_below="@+id/tvMemberName"
         android:layout_marginStart="25dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/iv_profile_member"
+        android:layout_toEndOf="@+id/ivMemberImage"
         android:textSize="16sp"
         tools:text="the quiet one" />
 
     <ImageView
-        android:id="@+id/edit_member_button"
+        android:id="@+id/editMemberButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

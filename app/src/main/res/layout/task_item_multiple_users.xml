@@ -9,7 +9,7 @@
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/task_check_box2"
+        android:id="@+id/cbCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/task_check_box2">
+        android:layout_toEndOf="@+id/cbCheckBox">
 
         <ImageView
             android:id="@+id/iv_profile_image_other_user2"
@@ -38,7 +38,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
-            android:id="@+id/iv_profile_image_top2"
+            android:id="@+id/ivProfileImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="image of assigned user"
@@ -50,7 +50,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/tv_task_item_name2"
+        android:id="@+id/tvTaskItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -61,10 +61,10 @@
         tools:text="Walk Dog" />
 
     <TextView
-        android:id="@+id/tv_task_due_date2"
+        android:id="@+id/tvTaskDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_task_item_name2"
+        android:layout_below="@+id/tvTaskItem"
         android:layout_marginStart="10dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/grouping_frame"

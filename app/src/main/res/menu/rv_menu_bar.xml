@@ -9,9 +9,9 @@
         app:showAsAction="ifRoom|withText"></item>
 
     <item
-        android:id="@+id/edit_members_task"
+        android:id="@+id/membersTab"
         android:title="Members" />
     <item
-        android:id="@+id/edit_profile_tab"
+        android:id="@+id/editProfileTab"
         android:title="Edit Profile" />
 </menu>
