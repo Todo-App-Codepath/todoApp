@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuLogout"
+        android:icon="@drawable/ic_logout"
+        android:title="Exit"
+        app:showAsAction="ifRoom|withText"></item>
+
+    <item
         android:id="@+id/edit_members_task"
         android:title="Members" />
     <item
