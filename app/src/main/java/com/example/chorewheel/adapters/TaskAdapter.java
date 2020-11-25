@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.chorewheel.MainActivity;
 import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
 import com.example.chorewheel.models.User;
@@ -23,6 +25,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private Context context;
     private List<Task> tasks;
+
+    public TaskAdapter(Context context, List<Task> tasks) {
+        this.context = context;
+        this.tasks = tasks;
+    }
 
     @NonNull
     @Override
@@ -42,6 +49,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return tasks.size();
     }
 
+    //clears elements of recyclerview
+    public void clear() {
+        tasks.clear();
+        notifyDataSetChanged();
+    }
+
+    //adds all items to task list
+    public void addAll(List<Task> taskList){
+        tasks.addAll(taskList);
+        notifyDataSetChanged();
+
+    }
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tvTaskName;
         private CheckBox cbCheckBox;
@@ -60,18 +79,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getTaskName());
-            ParseUser user = task.getUser();
+            Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivProfileImage);
 
-            if(user.get("image")!=null){
-                Glide.with(context).load(user.get("image")).into(ivProfileImage);
-            }
-            else{
-                Glide.with(context).load(R.drawable.ic_user_img).into(ivProfileImage);
-            }
+//            if(task.getUser().getImage()!=null){
+//                Glide.with(context).load(task.getUser().getImage()).into(ivProfileImage);
+//            }
+//            else{
+//                Glide.with(context).load(R.drawable.ic_user_img).into(ivProfileImage);
+//            }
 
 
-
-//            ivProfileImage
         }
     }
 }

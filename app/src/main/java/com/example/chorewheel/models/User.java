@@ -3,6 +3,7 @@ package com.example.chorewheel.models;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("User")
 public class User extends ParseObject {
@@ -18,6 +19,9 @@ public class User extends ParseObject {
     }
     public void setImage(ParseFile file){
         put(KEY_IMAGE, file);
+    }
+    public ParseFile getImage(){
+        return getParseFile(KEY_IMAGE);
     }
     public String getUsername(){
         return getString(KEY_USERNAME);

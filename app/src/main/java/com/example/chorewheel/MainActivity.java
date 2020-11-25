@@ -1,6 +1,7 @@
 package com.example.chorewheel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -17,6 +18,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,8 +32,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rvTasksList = findViewById(R.id.rvTaskList);
-
-
+        allTasks = new ArrayList<>();
+        taskAdapter = new TaskAdapter(this, allTasks);
+//        //TODO swipe refresh layout
+//
+        rvTasksList.setAdapter(taskAdapter);
+        rvTasksList.setLayoutManager(new LinearLayoutManager(this));
+        queryTasks();
     }
 
     @Override
@@ -54,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // query for tasks
+    // query for tasks of all members
     protected void queryTasks(){
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
         //TODO add group member filter here
         query.setLimit(20);
-        query.addDescendingOrder(Task.KEY_DUE_DATE);
+//        query.addDescendingOrder(Task.KEY_DUE_DATE);
         query.findInBackground(new FindCallback<Task>() {
             @Override
             public void done(List<Task> tasks, ParseException e) {
@@ -67,10 +74,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Issues with getting tasks", e);
                     return;
                 }else{
-//                    for(Task task : tasks){
-//                        Log.i(TAG,)
-//                    }
+                    Log.i(TAG,"Task name: " + tasks.get(0).getTaskName());
                 }
+                taskAdapter.clear();
+                taskAdapter.addAll(tasks);
+
 
             }
         });

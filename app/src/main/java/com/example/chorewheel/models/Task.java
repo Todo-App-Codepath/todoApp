@@ -16,6 +16,8 @@ public class Task extends ParseObject {
     public static final String KEY_USER = "userID";
     public static final String KEY_CHECKED = "checked";
 
+    //TODO connect user class to this Task class...
+
     public String getObjectId(){
         return getString(KEY_OBJECT_ID);
     }
