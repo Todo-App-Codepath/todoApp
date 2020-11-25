@@ -1,6 +1,7 @@
 package com.example.chorewheel.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,9 +81,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getTaskName());
             Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivProfileImage);
-
-//            if(task.getUser().getImage()!=null){
-//                Glide.with(context).load(task.getUser().getImage()).into(ivProfileImage);
+//            ParseUser user =task.getUser();
+//            Log.d("tagUser", "The user object: " + user.toString());
+//            if(user.get("image")!=null) {
+//                Glide.with(context).load(user.getParseFile("image")).into(ivProfileImage);
 //            }
 //            else{
 //                Glide.with(context).load(R.drawable.ic_user_img).into(ivProfileImage);
