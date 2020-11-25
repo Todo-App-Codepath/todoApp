@@ -10,9 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -23,7 +26,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText etLname;
     private EditText etUsername;
     private EditText etPassword;
-    private EditText etGroupName;
+    private EditText etGroupID;
     private Button btnCreateAccount;
 
     @Override
@@ -36,25 +39,48 @@ public class CreateAccountActivity extends AppCompatActivity {
         etLname = findViewById(R.id.etLname);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        etGroupName = findViewById(R.id.etGroupName);
+        etGroupID = findViewById(R.id.etGroupID);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
 
         btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onClick Create Account button");
-                String email = etEmail.getText().toString();
-                String firstName = etFname.getText().toString();
-                String lastName = etLname.getText().toString();
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                String group = etGroupName.getText().toString();
-                createAccount(email, firstName, lastName, username, password, group);
+                final String email = etEmail.getText().toString();
+                final String firstName = etFname.getText().toString();
+                final String lastName = etLname.getText().toString();
+                final String username = etUsername.getText().toString();
+                final String password = etPassword.getText().toString();
+                final String groupID = etGroupID.getText().toString();
+
+                if (groupID.equals("")) {
+                    createAccount(email,firstName, lastName, username, password);
+                    finish();
+                }
+                else {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Group");
+                    query.whereEqualTo("objectId", groupID);
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            if (object == null) {
+                                Toast.makeText(CreateAccountActivity.this, "Group ID doesn't exist!", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                createAccount(email,firstName, lastName, username, password);
+                                ParseUser user = ParseUser.getCurrentUser();
+                                ParseObject group = object;
+                                addUserToGroup(group, user);
+                                finish();
+                            }
+                        }
+                    });
+                }
             }
         });
     }
 
-    private void createAccount(final String email, final String firstName, final String lastName, final String username, final String password, final String group) {
+    private void createAccount(final String email, final String firstName, final String lastName, final String username, final String password) {
         final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
@@ -65,28 +91,31 @@ public class CreateAccountActivity extends AppCompatActivity {
                     user.put("email", email);
                     user.put("firstName", firstName);
                     user.put("lastName", lastName);
-                    //ParseUser newUser = ParseUser.getCurrentUser();
                     user.saveInBackground();
-                    createGroup(group, user);
                     Toast.makeText(CreateAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                     finish();
-                }
-                else {
+                } else {
                     Toast.makeText(CreateAccountActivity.this, "Create Account Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void createGroup(final String groupName, ParseUser user) {
-        ParseObject group = new ParseObject("Group");
-        group.put("name", groupName);
-        group.saveInBackground();
-
+    private void addUserToGroup(final ParseObject group, final ParseUser user) {
         ParseObject groupsUsers = new ParseObject("GroupsUsers");
         groupsUsers.put("userID", user);
         groupsUsers.put("groupID", group);
-        groupsUsers.saveInBackground();
+        groupsUsers.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i(TAG, "New User added to Group List");
+                }
+                else {
+                    Log.e(TAG, "Error occurred: User not added to Group.");
+                }
+            }
+        });
     }
 
     // Reroute to login page once an account is created.
