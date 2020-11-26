@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     // query for tasks of all members
     protected void queryTasks(){
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+        query.include("User");
         //TODO add group member filter here
         query.setLimit(20);
 //        query.addDescendingOrder(Task.KEY_DUE_DATE);
@@ -74,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Issues with getting tasks", e);
                     return;
                 }else{
-                    Log.i(TAG,"Task name: " + tasks.get(0).getTaskName());
+//                    Log.i(TAG,"UserObject: " + tasks.get(0).toString());
+                    //https://stackoverflow.com/questions/31656009/retrieving-pointer-data-from-parse-com-in-android
+
+                    //https://stackoverflow.com/questions/15517541/how-to-query-value-of-column-that-is-set-as-pointer-to-other-table-in-parse
                 }
                 taskAdapter.clear();
                 taskAdapter.addAll(tasks);

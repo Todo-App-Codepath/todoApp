@@ -18,6 +18,8 @@ import com.example.chorewheel.MainActivity;
 import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
 import com.example.chorewheel.models.User;
+import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -81,9 +83,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getTaskName());
             Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivProfileImage);
-//            ParseUser user =task.getUser();
-//            Log.d("tagUser", "The user object: " + user.toString());
-//            if(user.get("image")!=null) {
+//            ParseUser user = task.getUser();
+//
+//            Log.i("taskUser", task.getUser().toString());
+////            Log.d("tagUser", "The user object: " + user.toString());
+//            if(user.getParseFile("image")!=null) {
 //                Glide.with(context).load(user.getParseFile("image")).into(ivProfileImage);
 //            }
 //            else{
