@@ -16,7 +16,6 @@ public class Task extends ParseObject {
     public static final String KEY_USER = "userID";
     public static final String KEY_CHECKED = "checked";
 
-    //TODO connect user class to this Task class...
 
     public String getObjectId(){
         return getString(KEY_OBJECT_ID);
@@ -43,7 +42,6 @@ public class Task extends ParseObject {
 
     public void setDueDate(String dueDate ){
         put(KEY_DUE_DATE, dueDate);
-
     }
     public ParseUser getUser() {
         return getParseUser(KEY_USER);

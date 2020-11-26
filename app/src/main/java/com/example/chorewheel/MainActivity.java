@@ -8,13 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.PopupWindow;
 
 import com.example.chorewheel.adapters.TaskAdapter;
 import com.example.chorewheel.models.Task;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -26,19 +25,25 @@ public class MainActivity extends AppCompatActivity {
     protected TaskAdapter taskAdapter;
     private static final String TAG = "MainActivity";
     protected List<Task> allTasks;
-    String groupId;
+    protected String groupId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //query for group Id
+
+
         rvTasksList = findViewById(R.id.rvTaskList);
         allTasks = new ArrayList<>();
         taskAdapter = new TaskAdapter(this, allTasks);
 //        //TODO swipe refresh layout
 //
+
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
-        queryTasks();
+
+        queryMyTasks();
     }
 
     @Override
@@ -62,9 +67,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // query for tasks of all members
-    protected void queryTasks(){
+    protected void queryMyTasks(){
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
         query.include("User");
+        ParseUser curr_user = ParseUser.getCurrentUser();
+        query.whereEqualTo("userID",curr_user );
         //TODO add group member filter here
         query.setLimit(20);
 //        query.addDescendingOrder(Task.KEY_DUE_DATE);
@@ -75,10 +82,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Issues with getting tasks", e);
                     return;
                 }else{
-//                    Log.i(TAG,"UserObject: " + tasks.get(0).toString());
-                    //https://stackoverflow.com/questions/31656009/retrieving-pointer-data-from-parse-com-in-android
+                    try {
+                        Log.i(TAG,"UserObject: " + tasks.get(0).getUser().fetchIfNeeded().getParseFile("image"));
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
 
-                    //https://stackoverflow.com/questions/15517541/how-to-query-value-of-column-that-is-set-as-pointer-to-other-table-in-parse
                 }
                 taskAdapter.clear();
                 taskAdapter.addAll(tasks);
@@ -87,4 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

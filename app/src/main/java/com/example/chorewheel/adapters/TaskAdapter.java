@@ -19,6 +19,8 @@ import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
 import com.example.chorewheel.models.User;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -82,17 +84,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getTaskName());
-            Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivProfileImage);
-//            ParseUser user = task.getUser();
-//
-//            Log.i("taskUser", task.getUser().toString());
-////            Log.d("tagUser", "The user object: " + user.toString());
-//            if(user.getParseFile("image")!=null) {
-//                Glide.with(context).load(user.getParseFile("image")).into(ivProfileImage);
-//            }
-//            else{
-//                Glide.with(context).load(R.drawable.ic_user_img).into(ivProfileImage);
-//            }
+
+            // for placing profile image into user icon on task
+            ParseFile image = null;
+            try {
+                image= task.getUser().fetchIfNeeded().getParseFile("image");
+                if(image.getFile()==null){
+                    Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivProfileImage);
+                }
+                else{
+                    Glide.with(context).load(image.getFile()).transform(new CircleCrop()).into(ivProfileImage);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+
+
+
 
 
         }
