@@ -118,7 +118,7 @@
             android:inputType="date" />
 
         <Button
-            android:id="@+id/btAddTask"
+            android:id="@+id/btnAddTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etAddTaskNotes"
