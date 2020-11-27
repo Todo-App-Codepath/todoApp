@@ -82,12 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Issues with getting tasks", e);
                     return;
                 }else{
-                    try {
-                        Log.i(TAG,"UserObject: " + tasks.get(0).getUser().fetchIfNeeded().getParseFile("image"));
-                    } catch (ParseException ex) {
-                        ex.printStackTrace();
-                    }
-
+                    // For any test statements
                 }
                 taskAdapter.clear();
                 taskAdapter.addAll(tasks);
