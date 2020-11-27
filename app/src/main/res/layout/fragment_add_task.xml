@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTaskFragment">
+
+    <RelativeLayout
+        android:id="@+id/rlAddTask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvAddTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="0dp"
+            android:gravity="center_horizontal"
+            android:text="@string/add_task_fragment_title"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvAddTaskName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddTaskTitle"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_task_fragment_task_name"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvAddTaskFor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etAddTaskName"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/add_task_fragment_task_for"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvAddTaskDue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rvAddTaskMember"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/add_task_fragment_task_due"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvAddTaskNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etdAddTaskDate"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/add_task_fragment_task_notes"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etAddTaskName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddTaskName"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/etAddTaskNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddTaskNotes"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:minLines="5">
+
+        </EditText>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAddTaskMember"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/tvAddTaskFor"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp" />
+
+        <EditText
+            android:id="@+id/etdAddTaskDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddTaskDue"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:hint="MM/DD/YYYY"
+            android:inputType="date" />
+
+        <Button
+            android:id="@+id/btAddTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etAddTaskNotes"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/add_task_fragment_title"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

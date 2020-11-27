@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ChoreWheel</string>
+<!-- Add Task Fragment -->
+    <string name="add_task_fragment_title">Add Task</string>
+    <string name="add_task_fragment_task_name">Task Name:</string>
+    <string name="add_task_fragment_task_for">Task For:</string>
+    <string name="add_task_fragment_task_due">Due by:</string>
+    <string name="add_task_fragment_task_notes">Notes:</string>
 </resources>
