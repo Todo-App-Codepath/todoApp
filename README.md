@@ -24,22 +24,22 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 
 **Required Must-have Stories**
 
-* As a user I want to see my list of tasks 
-* As a user I want to make a task
-* As a user I want to add a due date for the tasks
-* As a user I want to be able to create an account
-* As a user I want to be able sign in and sign out
-* As a user I want to see other user's tasks, filter task
-* As a user I want to be able to edit a task
-* As a user I want to be able to add an avatar to my profile image
-* As a user I want to be able to assign a task to a member
-* As a user I want to get notified of a task that's due
+- [ ] As a user I want to see my list of tasks 
+- [ ] As a user I want to make a task
+- [ ] As a user I want to add a due date for the tasks
+- [X] As a user I want to be able to create an account
+- [X] As a user I want to be able sign in and sign out
+- [ ] As a user I want to see other user's tasks, filter task
+- [ ] As a user I want to be able to edit a task
+- [ ] As a user I want to be able to add an avatar to my profile image
+- [ ] As a user I want to be able to assign a task to a member
+- [ ] As a user I want to get notified of a task that's due
 
 
 **Optional Nice-to-have Stories**
 
-* As a user I want to be able to view items offline(optional)
-* As a user I want to be able to view items in a calendar.
+- [ ] As a user I want to be able to view items offline(optional)
+- [ ] As a user I want to be able to view items in a calendar.
 
 ### 2. Screen Archetypes
 
