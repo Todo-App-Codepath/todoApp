@@ -89,7 +89,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             ParseFile image = null;
             try {
                 image= task.getUser().fetchIfNeeded().getParseFile("image");
-                if(image.getFile()==null){
+                if(image==null){
                     Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivProfileImage);
                 }
                 else{
