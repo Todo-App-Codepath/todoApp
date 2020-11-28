@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
         query.include("User");
         ParseUser curr_user = ParseUser.getCurrentUser();
-        query.whereEqualTo("userID",curr_user );
+        query.whereEqualTo("userID",curr_user ).addAscendingOrder("dueDate");
         //TODO add group member filter here
         query.setLimit(20);
 //        query.addDescendingOrder(Task.KEY_DUE_DATE);

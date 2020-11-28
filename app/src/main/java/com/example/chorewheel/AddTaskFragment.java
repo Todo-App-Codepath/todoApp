@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.example.chorewheel.models.Task;
 import com.parse.ParseException;
@@ -33,6 +34,7 @@ public class AddTaskFragment extends DialogFragment {
     private EditText etAddTaskDate;
     private EditText etAddTaskDescription;
     private Button btnAddTask;
+    private Spinner spinnerPerson;
 
     public AddTaskFragment() {
         // Empty constructor required for Task Fragment
@@ -60,6 +62,7 @@ public class AddTaskFragment extends DialogFragment {
         etAddTaskDate = view.findViewById(R.id.etdAddTaskDate);
         etAddTaskDescription = view.findViewById(R.id.etAddTaskNotes);
         btnAddTask = view.findViewById(R.id.btnAddTask);
+        spinnerPerson = view.findViewById(R.id.spinnerPerson);
 
         // Submit task button functionality
         btnAddTask.setOnClickListener(new View.OnClickListener() {

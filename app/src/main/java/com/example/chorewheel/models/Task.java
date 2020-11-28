@@ -5,6 +5,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("Task")
 public class Task extends ParseObject {
     public static final String KEY_OBJECT_ID = "objectId";
@@ -36,8 +38,8 @@ public class Task extends ParseObject {
         put(KEY_DESCRIPTION, description);
     }
 
-    public String getDueDate() {
-        return getString(KEY_DUE_DATE);
+    public Date getDueDate() {
+        return getDate(KEY_DUE_DATE);
     }
 
     public void setDueDate(String dueDate ){

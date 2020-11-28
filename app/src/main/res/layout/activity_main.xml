@@ -13,13 +13,10 @@ tools:context=".MainActivity">
         android:orientation="vertical">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/rv_members_icons"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp">
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTaskList"
@@ -32,12 +29,6 @@ tools:context=".MainActivity">
                 tools:layout_editor_absoluteY="1dp" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_members_icons"
-            android:layout_width="389dp"
-            android:layout_height="60dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp" />
     </RelativeLayout>
 
 

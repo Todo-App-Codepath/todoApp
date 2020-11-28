@@ -24,6 +24,9 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
@@ -83,7 +86,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public void bind(Task task) {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
-            tvTaskDueDate.setText(task.getTaskName());
+            DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+            Date date = task.getDueDate();
+            String dateString = dateFormat.format(date);
+            tvTaskDueDate.setText("Due: " + dateString);
 
             // for placing profile image into user icon on task
             ParseFile image = null;
