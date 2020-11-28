@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //query for group Id
 
 
         rvTasksList = findViewById(R.id.rvTaskList);

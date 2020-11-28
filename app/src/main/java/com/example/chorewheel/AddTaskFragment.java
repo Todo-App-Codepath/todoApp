@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.chorewheel.models.Task;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -65,7 +66,7 @@ public class AddTaskFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // Create task
-                ParseObject newTask = new ParseObject("Task");
+                Task newTask = new Task();
                 newTask.put("name", etAddTaskName.getText().toString());
                 newTask.put("description", etAddTaskDescription.getText().toString());
                 // TODO: Select a user for task. Default behavior: Current User
