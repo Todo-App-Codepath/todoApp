@@ -33,5 +33,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
     implementation "com.squareup.okhttp3:logging-interceptor:3.8.1"
+
     implementation 'com.google.android.material:material:1.1.0' // For Floating Action Button (FAB)
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
+
