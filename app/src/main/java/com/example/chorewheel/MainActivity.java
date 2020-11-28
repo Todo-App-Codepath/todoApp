@@ -1,14 +1,20 @@
 package com.example.chorewheel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.chorewheel.adapters.TaskAdapter;
 import com.example.chorewheel.models.Task;
@@ -28,17 +34,31 @@ public class MainActivity extends AppCompatActivity {
     protected List<Task> allTasks;
     protected String groupId;
     SwipeRefreshLayout swipeContainer;
+    FloatingActionButton addTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //query for group Id
 
+
+        // Add Task Floating Action Button (FAB)
+        addTask = findViewById(R.id.fab_add_task);
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open Add Task Fragment
+                FragmentManager fm = getSupportFragmentManager();
+                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
+                addTaskFragment.show(fm, "fragment_add_task");
+            }
+        });
 
         rvTasksList = findViewById(R.id.rvTaskList);
         allTasks = new ArrayList<>();
         taskAdapter = new TaskAdapter(this, allTasks);
-        // swipe refresh layout
+
+      // swipe refresh layout
         swipeContainer =findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -50,11 +70,13 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
+      
+        //set up task adapter 
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
         queryMyTasks();
+
     }
 
     @Override
@@ -97,11 +119,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 taskAdapter.clear();
                 taskAdapter.addAll(tasks);
-                swipeContainer.setRefreshing(false);
+
 
             }
         });
     }
+
 
 
 }
