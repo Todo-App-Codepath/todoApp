@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     protected List<Task> allTasks;
     protected String groupId;
-
+    SwipeRefreshLayout swipeContainer;
     FloatingActionButton addTask;
 
     @Override
@@ -54,12 +54,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         rvTasksList = findViewById(R.id.rvTaskList);
         allTasks = new ArrayList<>();
         taskAdapter = new TaskAdapter(this, allTasks);
-//        //TODO swipe refresh layout
+
+      // swipe refresh layout
+        swipeContainer =findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryMyTasks();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+      
+        //set up task adapter 
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -112,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 }
