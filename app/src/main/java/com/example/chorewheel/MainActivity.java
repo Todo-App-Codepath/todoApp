@@ -3,6 +3,7 @@ package com.example.chorewheel;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     protected List<Task> allTasks;
     protected String groupId;
-
+    SwipeRefreshLayout swipeContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +38,18 @@ public class MainActivity extends AppCompatActivity {
         rvTasksList = findViewById(R.id.rvTaskList);
         allTasks = new ArrayList<>();
         taskAdapter = new TaskAdapter(this, allTasks);
-//        //TODO swipe refresh layout
-//
+        // swipe refresh layout
+        swipeContainer =findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryMyTasks();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
@@ -86,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 taskAdapter.clear();
                 taskAdapter.addAll(tasks);
-
+                swipeContainer.setRefreshing(false);
 
             }
         });
