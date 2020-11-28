@@ -41,6 +41,11 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 - [ ] As a user I want to be able to view items offline(optional)
 - [ ] As a user I want to be able to view items in a calendar.
 
+## SPRINT 1 GIFS
+<img src="sprint1Features.gif" width=600>
+
+<img src="view_rvTask.gif" width=600>
+
 ### 2. Screen Archetypes
 
 * Login / Create Account
