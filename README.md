@@ -24,8 +24,8 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 
 **Required Must-have Stories**
 
-- [ ] As a user I want to see my list of tasks 
-- [ ] As a user I want to make a task
+- [x] As a user I want to see my list of tasks 
+- [x] As a user I want to make a task
 - [ ] As a user I want to add a due date for the tasks
 - [X] As a user I want to be able to create an account
 - [X] As a user I want to be able sign in and sign out
