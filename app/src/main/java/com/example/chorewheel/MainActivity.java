@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 taskAdapter.clear();
                 taskAdapter.addAll(tasks);
-
+                swipeContainer.setRefreshing(false);
 
             }
         });
