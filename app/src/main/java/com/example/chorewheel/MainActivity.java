@@ -132,37 +132,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // query all members excluding the current user
-    protected void queryMembers(){
-        ParseQuery<User> query = ParseQuery.getQuery("Users");
-        query.include("User");
-        ParseUser curr_user = ParseUser.getCurrentUser();
-        query.whereNotEqualTo("UserID", curr_user);
-        query.whereEqualTo("groupID",curr_user.get("groupID") );;
-        //TODO add group member filter here
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<User>() {
-            @Override
-            public void done(List<User> usersList, ParseException e) {
-                if (e!=null){
-                    Log.e(TAG, "Issues with getting users", e);
-                    return;
-                }else{
-                    // For any test statements
-                    Log.i(TAG, "got the users");
-                    membersList = usersList;
-                    if (membersList.size() > 0){
-
-                    }
-                }
-
-
-
-
-            }
-        });
-
-    }
+//    // query all members excluding the current user
+//    protected void queryMembers(){
+//        ParseQuery<User> query = ParseQuery.getQuery("Users");
+//        query.include("User");
+//        ParseUser curr_user = ParseUser.getCurrentUser();
+//        query.whereNotEqualTo("UserID", curr_user);
+//        query.whereEqualTo("groupID",curr_user.get("groupID") );;
+//        //TODO add group member filter here
+//        query.setLimit(20);
+//        query.findInBackground(new FindCallback<User>() {
+//            @Override
+//            public void done(List<User> usersList, ParseException e) {
+//                if (e!=null){
+//                    Log.e(TAG, "Issues with getting users", e);
+//                    return;
+//                }else{
+//                    // For any test statements
+//                    Log.i(TAG, "got the users");
+//                    membersList = usersList;
+//                    if (membersList.size() > 0){
+//
+//                    }
+//                }
+//
+//
+//
+//
+//            }
+//        });
+//
+//    }
 
 
 }
