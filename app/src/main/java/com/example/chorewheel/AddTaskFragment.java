@@ -8,11 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.chorewheel.models.Task;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -23,7 +27,9 @@ import com.parse.ParseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class AddTaskFragment extends DialogFragment {
@@ -63,6 +69,9 @@ public class AddTaskFragment extends DialogFragment {
         etAddTaskDescription = view.findViewById(R.id.etAddTaskNotes);
         btnAddTask = view.findViewById(R.id.btnAddTask);
         spinnerPerson = view.findViewById(R.id.spinnerPerson);
+        ArrayList<String> userList = userList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity(), android.R.layout.simple_spinner_item, userList);
+        spinnerPerson.setAdapter(adapter);
 
         // Submit task button functionality
         btnAddTask.setOnClickListener(new View.OnClickListener() {
@@ -96,9 +105,40 @@ public class AddTaskFragment extends DialogFragment {
                         dismiss();
                     }
                 });
-
             }
         });
+    }
 
+    protected ArrayList<String> userList () {
+        final ParseUser user = ParseUser.getCurrentUser();
+        //ParseObject group = (ParseObject) user.get("GroupID");
+        final ArrayList<String> users = new ArrayList<>();
+
+        user.getParseObject("GroupID")
+                .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject group, ParseException e) {
+                        ParseQuery<ParseUser> userQuery = ParseQuery.getQuery("User");
+                        userQuery.include("GroupID");
+                        userQuery.whereEqualTo("GroupID", group);
+                        userQuery.findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> objects, ParseException e) {
+                                if (objects != null) {
+                                    for (int i = 0; i < objects.size(); i++) {
+                                        ParseUser u = objects.get(i);
+                                        String name = u.getString("firstName") + " " + u.getString("lastName");
+                                        users.add(name);
+                                    }
+                                }
+                                else {
+                                    Log.e(TAG, "ERROR: Group Query.", e);
+                                    String name = user.getString("firstName") + " " + ("lastName");
+                                    users.add(name);
+                                }
+                            }
+                        });
+                    }
+                });
+        return users;
     }
 }
