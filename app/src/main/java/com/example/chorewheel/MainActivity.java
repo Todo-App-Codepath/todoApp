@@ -15,11 +15,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.chorewheel.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.chorewheel.adapters.TaskAdapter;
 import com.example.chorewheel.models.Task;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -77,10 +79,48 @@ public class MainActivity extends AppCompatActivity {
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
         queryMyTasks();
+        queryMembers();
 
     }
 
-    @Override
+
+
+    protected void queryMembers(){
+        final ParseUser user = ParseUser.getCurrentUser();
+        Log.i("test", user.getParseObject("GroupID").getObjectId());
+        ParseObject gObj= user.getParseObject("GroupID");
+
+
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.include("User");
+        query.include("GroupID");
+        
+        query.whereEqualTo("GroupID",gObj );;
+        //TODO add group member filter here
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> usersList, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "Issues with getting users", e);
+                    return;
+                }else{
+                    // For any test statements
+                    Log.i("test", "got the users");
+
+
+                }
+                Log.i("test", usersList.toString());
+                ParseUser user = usersList.get(0);
+                Log.i("test", user.getObjectId());
+
+            }
+
+
+        });
+    }
+
+
+        @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.rv_menu_bar, menu);

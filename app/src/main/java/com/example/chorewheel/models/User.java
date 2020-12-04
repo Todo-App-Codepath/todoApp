@@ -13,6 +13,7 @@ public class User extends ParseObject {
     public static final String KEY_EMAIL = "email";
     public static final String KEY_FIRST_NAME = "firstName";
     public static final String KEY_LAST_NAME = "lastName";
+    public static final String KEY_GROUP_ID = "GroupID";
 
 
 
