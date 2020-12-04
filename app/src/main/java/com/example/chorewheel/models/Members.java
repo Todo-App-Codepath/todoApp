@@ -1,18 +1,19 @@
 package com.example.chorewheel.models;
 
+import com.parse.Parse;
+import com.parse.ParseUser;
+
 import java.util.List;
 
 public class Members {
-    public Members(List<User> userList) {
+    List<ParseUser> userList;
+    public Members(List<ParseUser> userList) {
         this.userList = userList;
     }
-
-    List<User> userList;
-
-    public void setUserList(List<User> userList){
+    public void setUserList(List<ParseUser> userList){
         this.userList = userList;
     }
-    public List<User> getUserList(){
+    public List<ParseUser> getUserList(){
         return userList;
     }
 

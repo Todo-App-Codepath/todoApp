@@ -10,109 +10,83 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.chorewheel.MainActivity;
 import com.example.chorewheel.R;
-import com.example.chorewheel.models.Members;
-import com.example.chorewheel.models.User;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.List;
 
-public class MemberSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private final int USER = 0, GROUP_IMAGE = 1;
-
+public class MemberSelectorAdapter extends RecyclerView.Adapter<MemberSelectorAdapter.ViewHolder> {
+    List<ParseUser> usersList;
     Context context;
-    List<Object> objectsList;
 
-    public MemberSelectorAdapter(Context context, List<Object> objectsList) {
+    public MemberSelectorAdapter(Context context, List<ParseUser> usersList) {
+        this.usersList = usersList;
         this.context = context;
-        this.objectsList = objectsList;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if(objectsList.get(position) instanceof Members){
-            return GROUP_IMAGE;
-        }else{
-            return USER;
-        }
-    }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
-        switch (viewType) {
-            case GROUP_IMAGE:
-                View viewGroup = LayoutInflater.from(context).inflate(R.layout.group_member_icon, parent, false);
-                viewHolder = new ViewGroupHolder(viewGroup);
-                break;
-
-            default:
-                View viewMember = LayoutInflater.from(context).inflate(R.layout.user_icon, parent, false);
-                viewHolder = new ViewMember(viewMember);
-                break;
-        }
-        return viewHolder;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.user_icon, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()){
-            case GROUP_IMAGE:
-                ViewGroupHolder viewGroupHolder = (ViewGroupHolder) holder;
-                bindGroupIcon(viewGroupHolder, position);
-                break;
-            default:
-                ViewMember viewMember = (ViewMember) holder;
-                bindMemberIcon(viewMember, position);
-                break;
-        }
-    }
-
-    private void bindMemberIcon(ViewMember viewMember, int position) {
-        ParseUser curr_user = ParseUser.getCurrentUser();
-        User user = new User(objectsList.get(position));
-
-        if (objectsList.get(position)==curr_user){
-            viewMember.tvMemberName.setText("My Tasks");
-        }else{
-            viewMember.tvMemberName.setText(user.getFirstName());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ParseUser user = usersList.get(position);
+        try {
+            holder.bind(user);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
     }
-
-    private void bindGroupIcon(ViewGroupHolder viewGroupHolder, int position) {
-
+        public void clear() {
+        usersList.clear();
+        notifyDataSetChanged();
     }
 
+    //adds all items to task list
+    public void addAll(List<ParseUser> users){
+
+        usersList.addAll(users);
+        notifyDataSetChanged();
+
+    }
     @Override
     public int getItemCount() {
-        return 0;
+        return usersList.size();
     }
 
-    public class ViewGroupHolder extends RecyclerView.ViewHolder{
-        ImageView ivMemberImage1;
-        ImageView ivMemberImage2;
-        ImageView ivMemberImage3;
-
-        public ViewGroupHolder(@NonNull View itemView) {
-            super(itemView);
-            ivMemberImage1 = itemView.findViewById(R.id.ivMemberImage1);
-            ivMemberImage2 = itemView.findViewById(R.id.ivMemberImage2);
-            ivMemberImage3 = itemView.findViewById(R.id.ivMemberImage3);
-        }
-    }
-    public class ViewMember extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView ivMemberImage;
         TextView tvMemberName;
-
-        public ViewMember(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivMemberImage = itemView.findViewById(R.id.ivMemberImage);
-            tvMemberName = itemView.findViewById(R.id.tvMemberName);
+            ivMemberImage = itemView.findViewById(R.id.iv_member_icon_hrv);
+            tvMemberName = itemView.findViewById(R.id.tvMemberName_hrv);
+        }
+
+        public void bind(ParseUser user) throws ParseException {
+            ParseUser currUser = ParseUser.getCurrentUser();
+            if(user == currUser){
+                tvMemberName.setText("My List");
+            }else {
+                tvMemberName.setText(user.getString("firstName"));
+            }
+            ParseFile image1= user.getParseFile("image");
+            if (image1 != null){
+                Glide.with(context).load(image1.getFile()).transform(new CircleCrop()).into(ivMemberImage);
+            } else{
+                Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(ivMemberImage);
+            }
+
         }
     }
-
-
 }

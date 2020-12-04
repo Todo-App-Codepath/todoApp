@@ -25,7 +25,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvMemberName"
+        android:id="@+id/tvMemberName_hrv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -40,7 +40,7 @@
         android:id="@+id/tvMemberDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvMemberName"
+        android:layout_below="@+id/tvMemberName_hrv"
         android:layout_marginStart="25dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivMemberImage"
