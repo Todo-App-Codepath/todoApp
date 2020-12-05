@@ -19,6 +19,8 @@ import com.example.chorewheel.models.Task;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.parse.ParseUser;
 
@@ -108,34 +110,30 @@ public class AddTaskFragment extends DialogFragment {
 
     protected ArrayList<String> userList () {
         final ParseUser user = ParseUser.getCurrentUser();
-        //ParseObject group = (ParseObject) user.get("GroupID");
-        final ArrayList<String> users = new ArrayList<>();
-
-        user.getParseObject("GroupID")
-                .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject group, ParseException e) {
-                        ParseQuery<ParseUser> userQuery = ParseQuery.getQuery("User");
-                        userQuery.include("GroupID");
-                        userQuery.whereEqualTo("GroupID", group);
-                        userQuery.findInBackground(new FindCallback<ParseUser>() {
-                            @Override
-                            public void done(List<ParseUser> objects, ParseException e) {
-                                if (objects != null) {
-                                    for (int i = 0; i < objects.size(); i++) {
-                                        ParseUser u = objects.get(i);
-                                        String name = u.getString("firstName") + " " + u.getString("lastName");
-                                        users.add(name);
-                                    }
-                                }
-                                else {
-                                    Log.e(TAG, "ERROR: Group Query.", e);
-                                    String name = user.getString("firstName") + " " + ("lastName");
-                                    users.add(name);
-                                }
-                            }
-                        });
+        final ArrayList<String> members = new ArrayList<>();
+        Log.i("test", user.getParseObject("GroupID").getObjectId());
+        ParseObject gObj= user.getParseObject("GroupID");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.include("User");
+        query.include("GroupID");
+        query.whereEqualTo("GroupID",gObj );;
+        //TODO add group member filter here
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> usersList, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "Issues with getting users", e);
+                    return;
+                }else{
+                    // For any test statements
+                    for (int i = 0; i < usersList.size(); i++) {
+                        members.add(usersList.get(i).getString("firstName"));
                     }
-                });
-        return users;
+                    Log.i("test", "got the users");
+                }
+            }
+        });
+
+        return members;
     }
 }

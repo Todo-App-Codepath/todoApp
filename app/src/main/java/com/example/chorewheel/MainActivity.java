@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         query.include("User");
         query.include("GroupID");
-        query.whereNotEqualTo("GroupID",gObj );;
+        query.whereEqualTo("GroupID",gObj );;
         //TODO add group member filter here
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
