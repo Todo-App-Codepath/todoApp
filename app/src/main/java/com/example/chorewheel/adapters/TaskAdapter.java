@@ -1,8 +1,6 @@
 package com.example.chorewheel.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +71,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyDataSetChanged();
 
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tvTaskName;
         private CheckBox cbCheckBox;
@@ -137,7 +134,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     }, false);
                 }
             });
-
 
 
 

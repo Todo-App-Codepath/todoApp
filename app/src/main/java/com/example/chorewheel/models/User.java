@@ -28,4 +28,8 @@ public class User extends ParseObject {
     public String getUsername(){
         return getString(KEY_USERNAME);
     }
+
+    public String getFirstName() {
+        return getString(KEY_FIRST_NAME);
+    }
 }

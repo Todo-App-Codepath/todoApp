@@ -14,12 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.chorewheel.Fragments.AddTaskFragment;
+import com.example.chorewheel.adapters.MemberSelectorAdapter;
+import com.example.chorewheel.models.Members;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.chorewheel.adapters.TaskAdapter;
 import com.example.chorewheel.models.Task;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -31,9 +34,13 @@ public class MainActivity extends AppCompatActivity {
     protected TaskAdapter taskAdapter;
     private static final String TAG = "MainActivity";
     protected List<Task> allTasks;
-    protected String groupId;
+    protected String groupId = null;
     SwipeRefreshLayout swipeContainer;
     FloatingActionButton addTask;
+    protected MemberSelectorAdapter selectorAdapter;
+    protected List <ParseUser> members;
+    protected RecyclerView rvSelector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +48,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        rvTasksList = findViewById(R.id.rvTaskList);
+        // set up adapters and recycler views
+
         allTasks = new ArrayList<>();
+        rvTasksList = findViewById(R.id.rvTaskList);
         taskAdapter = new TaskAdapter(this, allTasks);
 
-      // swipe refresh layout
+        members = new ArrayList<>();
+        rvSelector = findViewById(R.id.rvMembersSelector);
+        selectorAdapter = new MemberSelectorAdapter(this, members);
+
+
+        // swipe refresh layout
         swipeContainer =findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -62,7 +76,13 @@ public class MainActivity extends AppCompatActivity {
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
+        rvSelector.setAdapter(selectorAdapter);
+        rvSelector.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        //creating recyclerviews
+
         queryMyTasks();
+        queryMembers();
 
         // Add Task Floating Action Button (FAB)
         addTask = findViewById(R.id.fab_add_task);
@@ -74,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
                 addTaskFragment.show(fm, "fragment_add_task");
 
+                // Update RecyclerView After Adding Task
                 fm.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
                     @Override
                     public void onFragmentViewDestroyed(FragmentManager fm, Fragment f) {
@@ -86,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -106,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
 
     // query for tasks of all members
     protected void queryMyTasks(){
@@ -133,6 +157,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // query all members excluding the current user
+    protected void queryMembers(){
+        final ParseUser user = ParseUser.getCurrentUser();
+        Log.i("test", user.getParseObject("GroupID").getObjectId());
+        ParseObject gObj= user.getParseObject("GroupID");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.include("User");
+        query.include("GroupID");
+        query.whereNotEqualTo("GroupID",gObj );;
+        //TODO add group member filter here
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> usersList, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "Issues with getting users", e);
+                    return;
+                }else{
+                    // For any test statements
+                    Log.i("test", "got the users");
+                }
+                //adding current user as the first item in the list
+                usersList.add(0, user);
+                selectorAdapter.clear();
+                selectorAdapter.addAll(usersList);
+            }
 
+        });
+    }
 
 }
