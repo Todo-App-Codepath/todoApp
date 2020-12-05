@@ -83,7 +83,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public void bind(Task task) {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
-            tvTaskDueDate.setText(task.getTaskName());
+            tvTaskDueDate.setText(task.getDueDate());
 
             // for placing profile image into user icon on task
             ParseFile image = null;
