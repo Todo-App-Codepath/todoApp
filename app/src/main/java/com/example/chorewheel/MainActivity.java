@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.chorewheel.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.chorewheel.adapters.TaskAdapter;
@@ -33,9 +34,11 @@ public class MainActivity extends AppCompatActivity {
     protected TaskAdapter taskAdapter;
     private static final String TAG = "MainActivity";
     protected List<Task> allTasks;
-    protected String groupId;
+    protected String groupId = null;
     SwipeRefreshLayout swipeContainer;
     FloatingActionButton addTask;
+    List<User> membersList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
 
     // query for tasks of all members
     protected void queryMyTasks(){
@@ -126,6 +132,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+//    // query all members excluding the current user
+//    protected void queryMembers(){
+//        ParseQuery<User> query = ParseQuery.getQuery("Users");
+//        query.include("User");
+//        ParseUser curr_user = ParseUser.getCurrentUser();
+//        query.whereNotEqualTo("UserID", curr_user);
+//        query.whereEqualTo("groupID",curr_user.get("groupID") );;
+//        //TODO add group member filter here
+//        query.setLimit(20);
+//        query.findInBackground(new FindCallback<User>() {
+//            @Override
+//            public void done(List<User> usersList, ParseException e) {
+//                if (e!=null){
+//                    Log.e(TAG, "Issues with getting users", e);
+//                    return;
+//                }else{
+//                    // For any test statements
+//                    Log.i(TAG, "got the users");
+//                    membersList = usersList;
+//                    if (membersList.size() > 0){
+//
+//                    }
+//                }
+//
+//
+//
+//
+//            }
+//        });
+//
+//    }
 
 
 }
