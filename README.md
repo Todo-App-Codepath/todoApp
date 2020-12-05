@@ -34,6 +34,7 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 - [ ] As a user I want to be able to add an avatar to my profile image
 - [ ] As a user I want to be able to assign a task to a member
 - [ ] As a user I want to get notified of a task that's due
+- [X] As a user I want to see other members on my task list page
 
 
 **Optional Nice-to-have Stories**
