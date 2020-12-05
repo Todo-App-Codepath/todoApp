@@ -1,6 +1,7 @@
 package com.example.chorewheel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.chorewheel.Fragments.AddTaskFragment;
 import com.example.chorewheel.adapters.MemberSelectorAdapter;
 import com.example.chorewheel.models.Members;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,17 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Add Task Floating Action Button (FAB)
-        addTask = findViewById(R.id.fab_add_task);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open Add Task Fragment
-                FragmentManager fm = getSupportFragmentManager();
-                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
-                addTaskFragment.show(fm, "fragment_add_task");
-            }
-        });
+
         // set up adapters and recycler views
 
         allTasks = new ArrayList<>();
@@ -91,6 +83,28 @@ public class MainActivity extends AppCompatActivity {
 
         queryMyTasks();
         queryMembers();
+
+        // Add Task Floating Action Button (FAB)
+        addTask = findViewById(R.id.fab_add_task);
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open Add Task Fragment
+                FragmentManager fm = getSupportFragmentManager();
+                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
+                addTaskFragment.show(fm, "fragment_add_task");
+
+                // Update RecyclerView After Adding Task
+                fm.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                    @Override
+                    public void onFragmentViewDestroyed(FragmentManager fm, Fragment f) {
+                        super.onFragmentViewDestroyed(fm, f);
+                        queryMyTasks();
+                        fm.unregisterFragmentLifecycleCallbacks(this);
+                    }
+                }, false);
+            }
+        });
 
     }
 

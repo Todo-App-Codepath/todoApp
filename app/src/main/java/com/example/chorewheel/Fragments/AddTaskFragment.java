@@ -1,4 +1,4 @@
-package com.example.chorewheel;
+package com.example.chorewheel.Fragments;
 
 import android.os.Bundle;
 
@@ -11,12 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.SaveCallback;
 import com.parse.ParseUser;
 
