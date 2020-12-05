@@ -1,27 +1,24 @@
 package com.example.chorewheel;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.chorewheel.Fragments.AddTaskFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.chorewheel.adapters.TaskAdapter;
 import com.example.chorewheel.models.Task;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 

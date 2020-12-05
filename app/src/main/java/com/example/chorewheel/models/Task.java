@@ -1,9 +1,13 @@
 package com.example.chorewheel.models;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @ParseClassName("Task")
 public class Task extends ParseObject {
@@ -36,8 +40,14 @@ public class Task extends ParseObject {
         put(KEY_DESCRIPTION, description);
     }
 
-    public String getDueDate() {
-        return getString(KEY_DUE_DATE);
+    public String getDueDate() { return getDate(KEY_DUE_DATE).toString(); }
+
+    // Gets date in MM/DD/YYYY format
+    public String getFormattedDate() {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date currentDate = getDate(KEY_DUE_DATE);
+        String currentDateString = dateFormat.format(currentDate);
+        return currentDateString;
     }
 
     public void setDueDate(String dueDate ){

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.AddTaskFragment">
+    tools:context=".Fragments.InfoTaskFragment">
 
     <RelativeLayout
-        android:id="@+id/rlAddTask"
+        android:id="@+id/rlInfoTask"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvAddTaskTitle"
+            android:id="@+id/tvInfoTaskTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -20,16 +19,16 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="0dp"
             android:gravity="center_horizontal"
-            android:text="@string/add_task_fragment_title"
+            android:text="@string/info_task_fragment_title"
             android:textColor="@color/design_default_color_on_secondary"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvAddTaskName"
+            android:id="@+id/tvInfoTaskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvAddTaskTitle"
+            android:layout_below="@+id/tvInfoTaskTitle"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="@string/add_task_fragment_task_name"
@@ -37,10 +36,10 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvAddTaskFor"
+            android:id="@+id/tvInfoTaskFor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etAddTaskName"
+            android:layout_below="@+id/etInfoTaskName"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:text="@string/add_task_fragment_task_for"
@@ -48,10 +47,10 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvAddTaskDue"
+            android:id="@+id/tvInfoTaskDue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rvAddTaskMember"
+            android:layout_below="@+id/rvInfoTaskMember"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/add_task_fragment_task_due"
@@ -59,10 +58,10 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvAddTaskNotes"
+            android:id="@+id/tvInfoTaskNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etdAddTaskDate"
+            android:layout_below="@+id/etdInfoTaskDate"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/add_task_fragment_task_notes"
@@ -70,69 +69,69 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/etAddTaskName"
+            android:id="@+id/etInfoTaskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvAddTaskName"
+            android:layout_below="@+id/tvInfoTaskName"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp">
+            android:layout_marginEnd="20dp"
+            tools:text="Do Laundry">
 
         </EditText>
 
         <EditText
-            android:id="@+id/etAddTaskNotes"
+            android:id="@+id/etInfoTaskNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvAddTaskNotes"
+            android:layout_below="@+id/tvInfoTaskNotes"
             android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="20dp"
             android:gravity="start|top"
             android:inputType="textMultiLine"
-            android:minLines="5">
+            android:minLines="5"
+            tools:text="Do not lose pairs of socks">
 
         </EditText>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAddTaskMember"
+            android:id="@+id/rvInfoTaskMember"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_below="@+id/tvAddTaskFor"
+            android:layout_below="@+id/tvInfoTaskFor"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp" />
 
         <EditText
-            android:id="@+id/etdAddTaskDate"
+            android:id="@+id/etdInfoTaskDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvAddTaskDue"
+            android:layout_below="@+id/tvInfoTaskDue"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="false"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:ems="10"
             android:hint="MM/DD/YYYY"
-            android:inputType="date" />
+            android:inputType="date"
+            tools:text="12/25/2020" />
 
         <Button
-            android:id="@+id/btnAddTask"
+            android:id="@+id/btnInfoTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etAddTaskNotes"
+            android:layout_below="@+id/etInfoTaskNotes"
             android:layout_alignParentStart="false"
             android:layout_alignParentBottom="false"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:text="@string/add_task_fragment_title"
+            android:text="@string/info_task_fragment_button_save"
             android:textAllCaps="false"
             android:textSize="16sp" />
 
-
     </RelativeLayout>
-
-
 </FrameLayout>

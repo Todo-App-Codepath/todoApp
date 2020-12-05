@@ -1,19 +1,24 @@
 package com.example.chorewheel.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.chorewheel.Fragments.InfoTaskFragment;
 import com.example.chorewheel.MainActivity;
 import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
@@ -71,6 +76,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         private CheckBox cbCheckBox;
         private TextView tvTaskDueDate;
         private ImageView ivProfileImage;
+        private RelativeLayout taskContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,9 +84,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             cbCheckBox = itemView.findViewById(R.id.cbCheckBox);
             tvTaskDueDate = itemView.findViewById(R.id.tvTaskDueDate);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
+            taskContainer = itemView.findViewById(R.id.taskContainer);
         }
 
-        public void bind(Task task) {
+        public void bind(final Task task) {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getTaskName());
@@ -100,6 +107,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 e.printStackTrace();
             }
 
+            // View Info / Edit Task
+            taskContainer.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    // Open Info Task Fragment
+                    FragmentManager fm =  ((AppCompatActivity) context).getSupportFragmentManager();
+                    InfoTaskFragment infoTaskFragment = InfoTaskFragment.newInstance("Task Info");
+                    infoTaskFragment.setTask(task);
+                    infoTaskFragment.show(fm, "fragment_info_task");
+                }
+            });
 
 
 
