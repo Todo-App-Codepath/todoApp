@@ -32,7 +32,7 @@ public class InfoTaskFragment extends DialogFragment {
     private EditText etInfoTaskName;
     private EditText etInfoTaskDate;
     private EditText etInfoTaskDescription;
-    private Button btnInfoTask;
+    private Button btnEditSaveTask;
 
     private Task task;
 
@@ -66,11 +66,44 @@ public class InfoTaskFragment extends DialogFragment {
         etInfoTaskName = view.findViewById(R.id.etInfoTaskName);
         etInfoTaskDate = view.findViewById(R.id.etdInfoTaskDate);
         etInfoTaskDescription = view.findViewById(R.id.etInfoTaskNotes);
+        btnEditSaveTask = view.findViewById(R.id.btnEditSaveTask);
 
         // Set text boxes to current (detail view) task information
         etInfoTaskName.setText(task.getTaskName());
         etInfoTaskDate.setText(task.getFormattedDate());
         etInfoTaskDescription.setText(task.getDESCRIPTION());
+
+        // Edit Task Button (Save)
+        btnEditSaveTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Edit Name
+                task.setTaskName(etInfoTaskName.getText().toString());
+                // Edit Date
+                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                String dateString = etInfoTaskDate.getText().toString();
+                try {
+                    Date dateObject = dateFormat.parse(dateString);
+                    task.put("dueDate", dateObject);
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+                // Edit Description
+                task.setDescription(etInfoTaskDescription.getText().toString());
+
+                // Add all edits
+               task.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Error while editing Task! ", e);
+                        }
+                        // Close fragment
+                        dismiss();
+                    }
+                });
+            }
+        });
 
 
     }

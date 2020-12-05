@@ -120,7 +120,7 @@
             tools:text="12/25/2020" />
 
         <Button
-            android:id="@+id/btnInfoTask"
+            android:id="@+id/btnEditSaveTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etInfoTaskNotes"
