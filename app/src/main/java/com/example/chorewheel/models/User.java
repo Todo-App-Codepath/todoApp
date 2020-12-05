@@ -14,9 +14,6 @@ public class User extends ParseObject {
     public static final String KEY_FIRST_NAME = "firstName";
     public static final String KEY_LAST_NAME = "lastName";
 
-    public User(Object o) {
-        User user = (User) o;
-    }
 
 
     public String getID (){
