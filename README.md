@@ -26,7 +26,7 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 
 - [x] As a user I want to see my list of tasks 
 - [x] As a user I want to make a task
-- [ ] As a user I want to add a due date for the tasks
+- [X] As a user I want to add a due date for the tasks
 - [X] As a user I want to be able to create an account
 - [X] As a user I want to be able sign in and sign out
 - [ ] As a user I want to see other user's tasks, filter task
@@ -41,6 +41,14 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 
 - [ ] As a user I want to be able to view items offline(optional)
 - [ ] As a user I want to be able to view items in a calendar.
+
+## SPRINT 2 GIFS
+- As a user I want to see other members on my task list page
+- As a user I want to add a due date for the tasks
+<img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/view_rvMembers.gif" width=600>
+<img src="https://github.com/Todo-App-Codepath/todoApp/blob/main/add_due_date.gif" width=600>
+
+
 
 ## SPRINT 1 GIFS
 <img src="sprint1Features.gif" width=600>
