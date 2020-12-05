@@ -1,6 +1,7 @@
 package com.example.chorewheel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,18 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Add Task Floating Action Button (FAB)
-        addTask = findViewById(R.id.fab_add_task);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open Add Task Fragment
-                FragmentManager fm = getSupportFragmentManager();
-                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
-                addTaskFragment.show(fm, "fragment_add_task");
-            }
-        });
-
         rvTasksList = findViewById(R.id.rvTaskList);
         allTasks = new ArrayList<>();
         taskAdapter = new TaskAdapter(this, allTasks);
@@ -74,6 +63,27 @@ public class MainActivity extends AppCompatActivity {
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
         queryMyTasks();
+
+        // Add Task Floating Action Button (FAB)
+        addTask = findViewById(R.id.fab_add_task);
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open Add Task Fragment
+                FragmentManager fm = getSupportFragmentManager();
+                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
+                addTaskFragment.show(fm, "fragment_add_task");
+
+                fm.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                    @Override
+                    public void onFragmentViewDestroyed(FragmentManager fm, Fragment f) {
+                        super.onFragmentViewDestroyed(fm, f);
+                        queryMyTasks();
+                        fm.unregisterFragmentLifecycleCallbacks(this);
+                    }
+                }, false);
+            }
+        });
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.chorewheel.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,6 +73,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyDataSetChanged();
 
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tvTaskName;
         private CheckBox cbCheckBox;
@@ -90,7 +93,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public void bind(final Task task) {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
-            tvTaskDueDate.setText(task.getTaskName());
+            tvTaskDueDate.setText(task.getFormattedDate());
 
             // for placing profile image into user icon on task
             ParseFile image = null;
@@ -117,8 +120,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     InfoTaskFragment infoTaskFragment = InfoTaskFragment.newInstance("Task Info");
                     infoTaskFragment.setTask(task);
                     infoTaskFragment.show(fm, "fragment_info_task");
+
+                    // Update Task in RecyclerView
+                    fm.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                        @Override
+                        public void onFragmentViewDestroyed(FragmentManager fm, Fragment f) {
+                            super.onFragmentViewDestroyed(fm, f);
+
+                            // Post Dismiss Action Here
+                            tvTaskName.setText(task.getTaskName());
+                            cbCheckBox.setChecked(task.getChecked());
+                            tvTaskDueDate.setText(task.getFormattedDate());
+
+                            fm.unregisterFragmentLifecycleCallbacks(this);
+                        }
+                    }, false);
                 }
             });
+
+
 
 
 
