@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.chorewheel.Fragments.AddTaskFragment;
+import com.example.chorewheel.adapters.MemberSelectorAdapter;
+import com.example.chorewheel.models.Members;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.chorewheel.adapters.TaskAdapter;
@@ -33,9 +34,13 @@ public class MainActivity extends AppCompatActivity {
     protected TaskAdapter taskAdapter;
     private static final String TAG = "MainActivity";
     protected List<Task> allTasks;
-    protected String groupId;
+    protected String groupId = null;
     SwipeRefreshLayout swipeContainer;
     FloatingActionButton addTask;
+    protected MemberSelectorAdapter selectorAdapter;
+    protected List <ParseUser> members;
+    protected RecyclerView rvSelector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +48,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Add Task Floating Action Button (FAB)
-        addTask = findViewById(R.id.fab_add_task);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open Add Task Fragment
-                FragmentManager fm = getSupportFragmentManager();
-                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
-                addTaskFragment.show(fm, "fragment_add_task");
-            }
-        });
+        // set up adapters and recycler views
 
-        rvTasksList = findViewById(R.id.rvTaskList);
         allTasks = new ArrayList<>();
+        rvTasksList = findViewById(R.id.rvTaskList);
         taskAdapter = new TaskAdapter(this, allTasks);
 
-      // swipe refresh layout
+        members = new ArrayList<>();
+        rvSelector = findViewById(R.id.rvMembersSelector);
+        selectorAdapter = new MemberSelectorAdapter(this, members);
+
+
+        // swipe refresh layout
         swipeContainer =findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -76,9 +76,39 @@ public class MainActivity extends AppCompatActivity {
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
+        rvSelector.setAdapter(selectorAdapter);
+        rvSelector.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        //creating recyclerviews
+
         queryMyTasks();
+        queryMembers();
+
+        // Add Task Floating Action Button (FAB)
+        addTask = findViewById(R.id.fab_add_task);
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open Add Task Fragment
+                FragmentManager fm = getSupportFragmentManager();
+                AddTaskFragment addTaskFragment = AddTaskFragment.newInstance("Add Task");
+                addTaskFragment.show(fm, "fragment_add_task");
+
+                // Update RecyclerView After Adding Task
+                fm.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                    @Override
+                    public void onFragmentViewDestroyed(FragmentManager fm, Fragment f) {
+                        super.onFragmentViewDestroyed(fm, f);
+                        queryMyTasks();
+                        fm.unregisterFragmentLifecycleCallbacks(this);
+                    }
+                }, false);
+            }
+        });
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -99,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
 
     // query for tasks of all members
     protected void queryMyTasks(){
@@ -126,6 +157,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // query all members excluding the current user
+    protected void queryMembers(){
+        final ParseUser user = ParseUser.getCurrentUser();
+        Log.i("test", user.getParseObject("GroupID").getObjectId());
+        ParseObject gObj= user.getParseObject("GroupID");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.include("User");
+        query.include("GroupID");
+        query.whereNotEqualTo("GroupID",gObj );;
+        //TODO add group member filter here
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> usersList, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "Issues with getting users", e);
+                    return;
+                }else{
+                    // For any test statements
+                    Log.i("test", "got the users");
+                }
+                //adding current user as the first item in the list
+                usersList.add(0, user);
+                selectorAdapter.clear();
+                selectorAdapter.addAll(usersList);
+            }
 
+        });
+    }
 
 }

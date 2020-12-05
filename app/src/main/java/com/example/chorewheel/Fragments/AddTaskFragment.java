@@ -1,4 +1,4 @@
-package com.example.chorewheel;
+package com.example.chorewheel.Fragments;
 
 import android.os.Bundle;
 
@@ -14,14 +14,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.SaveCallback;
 import com.parse.ParseUser;
 
