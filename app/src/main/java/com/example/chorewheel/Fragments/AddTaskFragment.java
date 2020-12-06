@@ -69,8 +69,9 @@ public class AddTaskFragment extends DialogFragment {
         etAddTaskDescription = view.findViewById(R.id.etAddTaskNotes);
         btnAddTask = view.findViewById(R.id.btnAddTask);
         spinnerPerson = view.findViewById(R.id.spinnerPerson);
+        List<ParseUser> members = new ArrayList<>();
         final ArrayList<String> userList = userList();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String> (getContext(), android.R.layout.simple_spinner_item, userList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, userList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPerson.setAdapter(adapter);
         userList.add(0, "Please Select a Member");
@@ -91,6 +92,7 @@ public class AddTaskFragment extends DialogFragment {
 
 
         // Submit task button functionality
+        final List<ParseUser> finalMembers = getUserID();
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,12 +104,10 @@ public class AddTaskFragment extends DialogFragment {
                 if (selection[0] == 0) {
                     newTask.put("userID", ParseUser.getCurrentUser());
                 } else {
-                    Log.i("personUserName", userList.get(selection[0]));
-                    List<ParseUser> members = getUserID();
                     ParseUser memberSelected = new ParseUser();
-                    for (int i = 0; i < members.size(); i++){
-                        if (members.get(i).getUsername() == userList.get(selection[0])) {
-                            memberSelected = members.get(i);
+                    for (int i = 0; i < finalMembers.size(); i++) {
+                        if (finalMembers.get(i).getUsername().equals(userList.get(selection[0]))) {
+                            memberSelected = finalMembers.get(i);
                         }
                     }
                     newTask.put("userID", memberSelected);
@@ -136,33 +136,36 @@ public class AddTaskFragment extends DialogFragment {
                 });
             }
 
-            private List<ParseUser> getUserID() {
-                final ParseUser user = ParseUser.getCurrentUser();
-                final List<ParseUser> groupMembers = new ArrayList<>();
-                Log.i("test", user.getParseObject("GroupID").getObjectId());
-                ParseObject gObj= user.getParseObject("GroupID");
-                ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
-                query.include("User");
-                query.include("GroupID");
-                query.whereEqualTo("GroupID",gObj );;
-                query.findInBackground(new FindCallback<ParseUser>() {
-                    @Override
-                    public void done(List<ParseUser> usersList, ParseException e) {
-                        if (e!=null){
-                            Log.e(TAG, "Issues with getting users", e);
-                            return;
-                        }else{
-                            // For any test statements
-                            for (int i = 0; i < usersList.size(); i++) {
-                                groupMembers.add(usersList.get(i));
-                            }
+        });
+
+
+
+    }
+
+    private List<ParseUser> getUserID() {
+            final ParseUser user = ParseUser.getCurrentUser();
+            final List<ParseUser> groupMembers = new ArrayList<>();
+            Log.i("test", user.getParseObject("GroupID").getObjectId());
+            ParseObject gObj = user.getParseObject("GroupID");
+            ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+            query.include("User");
+            query.include("GroupID");
+            query.whereEqualTo("GroupID", gObj);
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> usersList, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Issues with getting users", e);
+                        return;
+                    } else {
+                        // For any test statements
+                        for (int i = 0; i < usersList.size(); i++) {
+                            groupMembers.add(usersList.get(i));
                         }
                     }
-                });
-
-                return groupMembers;
-            }
-        });
+                }
+            });
+            return groupMembers;
     }
 
     protected ArrayList<String> userList () {
