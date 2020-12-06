@@ -78,7 +78,7 @@ public class MemberSelectorAdapter extends RecyclerView.Adapter<MemberSelectorAd
             if(user == currUser){
                 tvMemberName.setText("My List");
             }else {
-                tvMemberName.setText(user.getString("firstName"));
+                tvMemberName.setText(user.getString("username"));
             }
             ParseFile image1= user.getParseFile("image");
             if (image1 != null){

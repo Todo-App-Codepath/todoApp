@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,9 +69,26 @@ public class AddTaskFragment extends DialogFragment {
         etAddTaskDescription = view.findViewById(R.id.etAddTaskNotes);
         btnAddTask = view.findViewById(R.id.btnAddTask);
         spinnerPerson = view.findViewById(R.id.spinnerPerson);
-        ArrayList<String> userList = userList();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity(), android.R.layout.simple_spinner_item, userList);
+        final ArrayList<String> userList = userList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String> (getContext(), android.R.layout.simple_spinner_item, userList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPerson.setAdapter(adapter);
+        userList.add(0, "Please Select a Member");
+        spinnerPerson.setSelection(0);
+        adapter.notifyDataSetChanged();
+        final int[] selection = new int[1];
+        spinnerPerson.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selection[0] = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selection[0] = 0;
+            }
+        });
+
 
         // Submit task button functionality
         btnAddTask.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +99,19 @@ public class AddTaskFragment extends DialogFragment {
                 newTask.put("name", etAddTaskName.getText().toString());
                 newTask.put("description", etAddTaskDescription.getText().toString());
                 // TODO: Select a user for task. Default behavior: Current User
-                newTask.put("userID", ParseUser.getCurrentUser());
+                if (selection[0] == 0) {
+                    newTask.put("userID", ParseUser.getCurrentUser());
+                } else {
+                    Log.i("personUserName", userList.get(selection[0]));
+                    List<ParseUser> members = getUserID();
+                    ParseUser memberSelected = new ParseUser();
+                    for (int i = 0; i < members.size(); i++){
+                        if (members.get(i).getUsername() == userList.get(selection[0])) {
+                            memberSelected = members.get(i);
+                        }
+                    }
+                    newTask.put("userID", memberSelected);
+                }
                 // Add Task Date (Format: MM/dd/yyy (Capitalization matters)
                 DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 String dateString = etAddTaskDate.getText().toString();
@@ -104,6 +134,33 @@ public class AddTaskFragment extends DialogFragment {
                         dismiss();
                     }
                 });
+            }
+
+            private List<ParseUser> getUserID() {
+                final ParseUser user = ParseUser.getCurrentUser();
+                final List<ParseUser> groupMembers = new ArrayList<>();
+                Log.i("test", user.getParseObject("GroupID").getObjectId());
+                ParseObject gObj= user.getParseObject("GroupID");
+                ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+                query.include("User");
+                query.include("GroupID");
+                query.whereEqualTo("GroupID",gObj );;
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> usersList, ParseException e) {
+                        if (e!=null){
+                            Log.e(TAG, "Issues with getting users", e);
+                            return;
+                        }else{
+                            // For any test statements
+                            for (int i = 0; i < usersList.size(); i++) {
+                                groupMembers.add(usersList.get(i));
+                            }
+                        }
+                    }
+                });
+
+                return groupMembers;
             }
         });
     }
