@@ -127,7 +127,7 @@ public class AddTaskFragment extends DialogFragment {
                 }else{
                     // For any test statements
                     for (int i = 0; i < usersList.size(); i++) {
-                        members.add(usersList.get(i).getString("firstName"));
+                        members.add(usersList.get(i).getUsername());
                     }
                     Log.i("test", "got the users");
                 }
