@@ -128,9 +128,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                             super.onFragmentViewDestroyed(fm, f);
 
                             // Post Dismiss Action Here
-                            tvTaskName.setText(task.getTaskName());
-                            cbCheckBox.setChecked(task.getChecked());
-                            tvTaskDueDate.setText(task.getFormattedDate());
+
+                            // Same user, update task in list
+                            if (task.getUser().getUsername().equals( ParseUser.getCurrentUser().getUsername()) ) {
+                                tvTaskName.setText(task.getTaskName());
+                                cbCheckBox.setChecked(task.getChecked());
+                                tvTaskDueDate.setText(task.getFormattedDate());
+                            } // Member assigned is different from current user, remove from list
+                            else {
+                                tasks.remove(getAdapterPosition());
+                                notifyItemRemoved(getAdapterPosition());
+                                notifyItemRangeChanged(getAdapterPosition(),tasks.size());
+                            }
+
+
 
                             fm.unregisterFragmentLifecycleCallbacks(this);
                         }

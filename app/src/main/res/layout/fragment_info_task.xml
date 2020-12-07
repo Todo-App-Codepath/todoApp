@@ -35,22 +35,22 @@
             android:textColor="@color/design_default_color_on_secondary"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tvInfoTaskFor"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/infoSpinnerPerson"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etInfoTaskName"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:text="@string/add_task_fragment_task_for"
-            android:textColor="@color/design_default_color_on_secondary"
-            android:textSize="16sp" />
+            android:layout_marginEnd="20dp"
+            android:paddingTop="5dp"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/tvInfoTaskDue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rvInfoTaskMember"
+            android:layout_below="@+id/infoSpinnerPerson"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/add_task_fragment_task_due"
@@ -94,16 +94,6 @@
             tools:text="Do not lose pairs of socks">
 
         </EditText>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvInfoTaskMember"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_below="@+id/tvInfoTaskFor"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp" />
 
         <EditText
             android:id="@+id/etdInfoTaskDate"
