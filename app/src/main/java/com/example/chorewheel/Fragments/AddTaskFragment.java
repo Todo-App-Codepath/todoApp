@@ -68,6 +68,7 @@ public class AddTaskFragment extends DialogFragment {
         etAddTaskDate = view.findViewById(R.id.etdAddTaskDate);
         etAddTaskDescription = view.findViewById(R.id.etAddTaskNotes);
         btnAddTask = view.findViewById(R.id.btnAddTask);
+
         spinnerPerson = view.findViewById(R.id.spinnerPerson);
         List<ParseUser> members = new ArrayList<>();
         final ArrayList<String> userList = userList();

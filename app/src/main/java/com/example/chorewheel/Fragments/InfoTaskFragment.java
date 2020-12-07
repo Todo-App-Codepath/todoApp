@@ -9,17 +9,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +40,7 @@ public class InfoTaskFragment extends DialogFragment {
     private EditText etInfoTaskDate;
     private EditText etInfoTaskDescription;
     private Button btnEditSaveTask;
+    private Spinner spinnerInfoPerson;
 
     private Task task;
 
@@ -68,12 +76,35 @@ public class InfoTaskFragment extends DialogFragment {
         etInfoTaskDescription = view.findViewById(R.id.etInfoTaskNotes);
         btnEditSaveTask = view.findViewById(R.id.btnEditSaveTask);
 
+        spinnerInfoPerson = view.findViewById(R.id.infoSpinnerPerson);
+        List<ParseUser> members = new ArrayList<>();
+        final ArrayList<String> userList = userList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, userList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerInfoPerson.setAdapter(adapter);
+        userList.add(0, "Assign to a different member...");
+        spinnerInfoPerson.setSelection(0);
+        adapter.notifyDataSetChanged();
+        final int[] selection = new int[1];
+        spinnerInfoPerson.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selection[0] = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selection[0] = 0;
+            }
+        });
+
         // Set text boxes to current (detail view) task information
         etInfoTaskName.setText(task.getTaskName());
         etInfoTaskDate.setText(task.getFormattedDate());
         etInfoTaskDescription.setText(task.getDESCRIPTION());
 
         // Edit Task Button (Save)
+        final List<ParseUser> finalMembers = getUserID();
         btnEditSaveTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +122,19 @@ public class InfoTaskFragment extends DialogFragment {
                 // Edit Description
                 task.setDescription(etInfoTaskDescription.getText().toString());
 
+                // Edit Member Assignment
+                if (selection[0] == 0) {
+                   task.put("userID", ParseUser.getCurrentUser());
+                } else {
+                    ParseUser memberSelected = new ParseUser();
+                    for (int i = 0; i < finalMembers.size(); i++) {
+                        if (finalMembers.get(i).getUsername().equals(userList.get(selection[0]))) {
+                            memberSelected = finalMembers.get(i);
+                        }
+                    }
+                    task.put("userID", memberSelected);
+                }
+
                 // Add all edits
                task.saveInBackground(new SaveCallback() {
                     @Override
@@ -106,6 +150,61 @@ public class InfoTaskFragment extends DialogFragment {
         });
 
 
+    }
+
+    private List<ParseUser> getUserID() {
+        final ParseUser user = ParseUser.getCurrentUser();
+        final List<ParseUser> groupMembers = new ArrayList<>();
+        Log.i("test", user.getParseObject("GroupID").getObjectId());
+        ParseObject gObj = user.getParseObject("GroupID");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.include("User");
+        query.include("GroupID");
+        query.whereEqualTo("GroupID", gObj);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> usersList, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issues with getting users", e);
+                    return;
+                } else {
+                    // For any test statements
+                    for (int i = 0; i < usersList.size(); i++) {
+                        groupMembers.add(usersList.get(i));
+                    }
+                }
+            }
+        });
+        return groupMembers;
+    }
+
+    protected ArrayList<String> userList () {
+        final ParseUser user = ParseUser.getCurrentUser();
+        final ArrayList<String> members = new ArrayList<>();
+        Log.i("test", user.getParseObject("GroupID").getObjectId());
+        ParseObject gObj= user.getParseObject("GroupID");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+        query.include("User");
+        query.include("GroupID");
+        query.whereEqualTo("GroupID",gObj );;
+        //TODO add group member filter here
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> usersList, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "Issues with getting users", e);
+                    return;
+                }else{
+                    // For any test statements
+                    for (int i = 0; i < usersList.size(); i++) {
+                        members.add(usersList.get(i).getUsername());
+                    }
+                    Log.i("test", "got the users");
+                }
+            }
+        });
+
+        return members;
     }
 
 
