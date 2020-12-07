@@ -18,14 +18,16 @@
 
     <ImageView
         android:id="@+id/ivProfileImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/cbCheckBox"
+        android:background="@drawable/task_item_profile_circle"
         android:contentDescription="image of assigned user"
         android:ellipsize="end"
         android:maxLines="1"
+        android:padding="2dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
