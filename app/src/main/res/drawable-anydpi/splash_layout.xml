@@ -4,6 +4,7 @@
 
     <item android:drawable="@drawable/gradient_color"/>
 
+    <!-- TODO: Filler only, Can set this drawable to final logo design -->
     <item android:drawable="@drawable/temporary_chore_logo"
         android:height="130dp"
         android:width="155.6dp"
