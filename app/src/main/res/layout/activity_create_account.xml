@@ -1,11 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_color"
+    android:padding="30dp"
     tools:context=".CreateAccountActivity">
+
+    <TextView
+        android:id="@+id/tvCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="Create an Account"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etFname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEmail"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:hint="first name"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorAccentLight"
+        android:backgroundTint="@android:color/white"/>
+
+    <EditText
+        android:id="@+id/etLname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etFname"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:hint="last name"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorAccentLight"
+        android:backgroundTint="@android:color/white"/>
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etLname"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:hint="username"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorAccentLight"
+        android:backgroundTint="@android:color/white"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etUsername"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorAccentLight"
+        android:backgroundTint="@android:color/white"/>
 
     <EditText
         android:id="@+id/etEmail"
@@ -19,83 +97,10 @@
         android:layout_marginEnd="5dp"
         android:ems="10"
         android:hint="email"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/etFname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etEmail"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:width="195dp"
-        android:ems="10"
-        android:hint="first name"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/etLname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etEmail"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
-        android:width="195dp"
-        android:ems="10"
-        android:hint="last name"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/tvCreateAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:text="Create an Account"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
-
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etFname"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
-        android:ems="10"
-        android:hint="username"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etUsername"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/btnCreateAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etGroupID"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="5dp"
-        android:text="Create Account" />
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorAccentLight"
+        android:backgroundTint="@android:color/white"/>
 
     <EditText
         android:id="@+id/etGroupID"
@@ -109,5 +114,25 @@
         android:layout_marginEnd="5dp"
         android:ems="10"
         android:hint="group id (optional)"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorAccentLight"
+        android:backgroundTint="@android:color/white"/>
+
+    <Button
+        android:id="@+id/btnCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etGroupID"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/rounded_button_login"
+        android:text="Create Account"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 </RelativeLayout>
