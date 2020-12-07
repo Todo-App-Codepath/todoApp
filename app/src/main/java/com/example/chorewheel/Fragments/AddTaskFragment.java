@@ -75,7 +75,7 @@ public class AddTaskFragment extends DialogFragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, userList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPerson.setAdapter(adapter);
-        userList.add(0, "Please Select a Member");
+        userList.add(0, "Select Member");
         spinnerPerson.setSelection(0);
         adapter.notifyDataSetChanged();
         final int[] selection = new int[1];
