@@ -20,12 +20,6 @@ public class ParseApplication extends Application {
         //register the Task subclass
         ParseObject.registerSubclass(Task.class);
         ParseObject.registerSubclass(User.class);
-        // TESTING ONLY - TO BE REMOVED
-        //Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
-        //OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        //HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        //httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        //builder.networkInterceptors().add(httpLoggingInterceptor);
 
         // This should be moved to server side code if possible
         Parse.initialize(new Parse.Configuration.Builder(this)

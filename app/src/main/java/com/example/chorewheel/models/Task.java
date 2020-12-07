@@ -40,6 +40,7 @@ public class Task extends ParseObject {
         put(KEY_DESCRIPTION, description);
     }
 
+
     public String getDueDate() { return getDate(KEY_DUE_DATE).toString(); }
 
     // Gets date in MM/DD/YYYY format

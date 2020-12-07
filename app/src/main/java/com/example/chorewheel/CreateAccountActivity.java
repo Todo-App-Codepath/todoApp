@@ -67,10 +67,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 Toast.makeText(CreateAccountActivity.this, "Group ID doesn't exist!", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                createAccount(email,firstName, lastName, username, password);
-                                ParseUser user = ParseUser.getCurrentUser();
                                 ParseObject group = object;
-                                addUserToGroup(group, user);
+                                createAccount(email,firstName, lastName, username, password, group);
                                 finish();
                             }
                         }
@@ -101,26 +99,25 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 
-    private void addUserToGroup(final ParseObject group, final ParseUser user) {
-        ParseObject groupsUsers = new ParseObject("GroupsUsers");
-        groupsUsers.put("userID", user);
-        groupsUsers.put("groupID", group);
-        groupsUsers.saveInBackground(new SaveCallback() {
+    private void createAccount(final String email, final String firstName, final String lastName, final String username, final String password, final ParseObject group) {
+        final ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.i(TAG, "New User added to Group List");
-                }
-                else {
-                    Log.e(TAG, "Error occurred: User not added to Group.");
+                    user.put("email", email);
+                    user.put("firstName", firstName);
+                    user.put("lastName", lastName);
+                    user.put("GroupID", group);
+                    user.saveInBackground();
+                    Toast.makeText(CreateAccountActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(CreateAccountActivity.this, "Create Account Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    // Reroute to login page once an account is created.
-    private void goLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);    //change to LoginActivity once it's created.
-        startActivity(i);
     }
 }
