@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_member_icon_hrv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorAccentExtraLight"
         tools:text="username" />
 
 

@@ -2,5 +2,5 @@
 <!--Layout is for having an outline for each item in recyclerview-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
     <solid android:color="@android:color/white" />
-    <stroke android:width="0.5dp" android:color="@color/light_gray"/>
+    <stroke android:width="0.5dp" android:color="@color/colorAccentExtraLight"/>
 </shape>

@@ -7,4 +7,10 @@
     <color name="colorAccentDark">#003c8f</color>
     <color name="colorAccentLight">#5e92f3</color>
     <color name ="light_gray">#BABABA</color>
+
+    <!-- Task Item Lighter Black-->
+    <color name="colorLightBlack">#474545</color>
+
+    <!-- Member Selector Text Color-->
+    <color name="colorAccentExtraLight">#A2BFF6</color>
 </resources>

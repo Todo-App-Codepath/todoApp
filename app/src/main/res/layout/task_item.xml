@@ -36,7 +36,8 @@
         android:layout_toEndOf="@+id/ivProfileImage"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
         tools:text="Walk Dog" />
 
     <TextView
@@ -47,5 +48,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:textAlignment="textEnd"
+        android:textColor="#474545"
         tools:text="Due By 5/12/2020" />
 </RelativeLayout>
