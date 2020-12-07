@@ -29,7 +29,7 @@
         android:layout_below="@+id/iv_member_icon_hrv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colorAccentExtraLight"
+        android:textColor="@android:color/white"
         tools:text="username" />
 
 
