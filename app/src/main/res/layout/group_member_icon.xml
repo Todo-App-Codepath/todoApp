@@ -20,6 +20,7 @@
             android:layout_alignTop="@+id/ivMemberImage2"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:background="@drawable/member_select_profile_circle"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
@@ -28,6 +29,7 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:background="@drawable/member_select_profile_circle"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             tools:srcCompat="@tools:sample/avatars" />
@@ -37,6 +39,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
+            android:background="@drawable/member_select_profile_circle"
             android:layout_marginTop="0dp"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -48,8 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iconsContainter"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"
-        android:text="All Members" />
+        android:layout_marginTop="2dp"
+        android:text="All Members"
+        android:textColor="@android:color/white" />
 
 
 </RelativeLayout>

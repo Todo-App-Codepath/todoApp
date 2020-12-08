@@ -90,20 +90,20 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
         ParseUser curr_user = ParseUser.getCurrentUser();
         ParseUser user = (ParseUser) objectsList.get(position);
         if (user!=null) {
-
             Log.i("user", user.toString());
             if (objectsList.get(position)==curr_user){
                 viewMember.tvMemberName.setText("My Tasks");
             }else {
                 viewMember.tvMemberName.setText(user.getString("firstName"));
             }
-            Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(viewMember.ivMemberImage);
+            ParseFile image1= user.getParseFile("image");
+            if (image1 != null){
+                Glide.with(context).load(image1.getFile()).transform(new CircleCrop()).into(viewMember.ivMemberImage);
+            } else{
+                Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(viewMember.ivMemberImage);
+            }
         }
-
-
-
     }
-//        Glide.with(context).load(user.getParseFile("image").getFile()).transform(new CircleCrop()).into(viewMember.ivMemberImage);
 
 
 
