@@ -58,6 +58,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_baseline_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
