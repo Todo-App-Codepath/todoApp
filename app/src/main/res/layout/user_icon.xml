@@ -11,11 +11,13 @@
 
     <ImageView
         android:id="@+id/iv_member_icon_hrv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
+        android:background="@drawable/member_select_profile_circle"
+        android:padding="2dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="6dp"
         tools:srcCompat="@tools:sample/avatars" />
@@ -26,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_member_icon_hrv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/white"
         tools:text="username" />
 
 

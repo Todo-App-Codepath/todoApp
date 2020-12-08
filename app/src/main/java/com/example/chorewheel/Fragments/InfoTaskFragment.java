@@ -82,7 +82,7 @@ public class InfoTaskFragment extends DialogFragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, userList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerInfoPerson.setAdapter(adapter);
-        userList.add(0, "Assign to a different member...");
+        userList.add(0, "Reassign..");
         spinnerInfoPerson.setSelection(0);
         adapter.notifyDataSetChanged();
         final int[] selection = new int[1];

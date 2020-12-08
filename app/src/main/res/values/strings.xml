@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">ChoreWheel</string>
+    <string name="app_name">Chore Wheel</string>
     <!-- Add Task Fragment -->
     <string name="add_task_fragment_title">Add Task</string>
-    <string name="add_task_fragment_task_name">Task Name:</string>
-    <string name="add_task_fragment_task_for">Task For:</string>
-    <string name="add_task_fragment_task_due">Due by:</string>
-    <string name="add_task_fragment_task_notes">Notes:</string>
+    <string name="add_task_fragment_task_name">Task Name</string>
+    <string name="add_task_fragment_task_for">Task For</string>
+    <string name="add_task_fragment_task_due">Due</string>
+    <string name="add_task_fragment_task_notes">Notes</string>
     <!-- Info/Edit Task Fragment -->
     <string name="info_task_fragment_title">Task Info</string>
     <string name="info_task_fragment_button_save">Save</string>

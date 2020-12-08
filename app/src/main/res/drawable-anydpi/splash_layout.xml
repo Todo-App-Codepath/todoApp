@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+
+    <item android:drawable="@drawable/gradient_color"/>
+
+    <!-- TODO: Filler only, Can set this drawable to final logo design -->
+    <item android:drawable="@drawable/temporary_chore_logo"
+        android:height="130dp"
+        android:width="155.6dp"
+        android:gravity="center"/>
+
+</layer-list>
