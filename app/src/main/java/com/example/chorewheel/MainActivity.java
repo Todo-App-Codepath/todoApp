@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.example.chorewheel.Fragments.AddTaskFragment;
 import com.example.chorewheel.adapters.MemberSelectorAdapter;
+import com.example.chorewheel.adapters.MemberSelectorAdapter1;
 import com.example.chorewheel.models.Members;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,6 +28,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected String groupId = null;
     SwipeRefreshLayout swipeContainer;
     FloatingActionButton addTask;
-    protected MemberSelectorAdapter selectorAdapter;
-    protected List <ParseUser> members;
+    protected MemberSelectorAdapter1 selectorAdapter;
+    protected List <Object> members;
     protected RecyclerView rvSelector;
 
 
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         members = new ArrayList<>();
         rvSelector = findViewById(R.id.rvMembersSelector);
-        selectorAdapter = new MemberSelectorAdapter(this, members);
+        selectorAdapter = new MemberSelectorAdapter1(this, members);
 
 
         // swipe refresh layout
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // query all members excluding the current user
+    // query all members and add a member oject
     protected void queryMembers(){
         final ParseUser user = ParseUser.getCurrentUser();
         Log.i("test", user.getParseObject("GroupID").getObjectId());
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         query.include("User");
         query.include("GroupID");
-        query.whereEqualTo("GroupID",gObj );;
+        query.whereEqualTo("GroupID",gObj );
         //TODO add group member filter here
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
@@ -178,13 +180,61 @@ public class MainActivity extends AppCompatActivity {
                     // For any test statements
                     Log.i("test", "got the users");
                 }
-                //adding current user as the first item in the list
+                //remove the user in the list
+                for (Iterator<ParseUser> iterator = usersList.iterator(); iterator.hasNext();){
+                    ParseObject object = iterator.next();
+                    if (object.getObjectId().equals(user.getObjectId())){
+                        iterator.remove();
+                    }
+                }
+                // add user to the front of the list
                 usersList.add(0, user);
+                List<Object> listOfUsers = new ArrayList<>();
+
+                if (usersList.size()>1){
+                    Members membersItem = new Members(usersList);
+                    listOfUsers.add(membersItem);
+                }
+                listOfUsers.addAll(usersList);
                 selectorAdapter.clear();
-                selectorAdapter.addAll(usersList);
+                selectorAdapter.addAll(listOfUsers);
+
             }
 
         });
     }
+//    protected void queryMembers(){
+//        final ParseUser user = ParseUser.getCurrentUser();
+//        Log.i("test", user.getParseObject("GroupID").getObjectId());
+//        ParseObject gObj= user.getParseObject("GroupID");
+//        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+//        query.include("User");
+//        query.include("GroupID");
+//        query.whereEqualTo("GroupID",gObj );
+//        //TODO add group member filter here
+//        query.findInBackground(new FindCallback<ParseUser>() {
+//            @Override
+//            public void done(List<ParseUser> usersList, ParseException e) {
+//                if (e!=null){
+//                    Log.e(TAG, "Issues with getting users", e);
+//                    return;
+//                }else{
+//                    // For any test statements
+//                    Log.i("test", "got the users");
+//                }
+//                //adding current user as the first item in the list
+//                for (int i = 0; i <usersList.size(); i++ ){
+//                    if (usersList.get(i).getObjectId().equals(user.getObjectId())){
+//                        usersList.remove(i);
+//                    }
+//                }
+//                usersList.add(0, user);
+//                selectorAdapter.clear();
+//                selectorAdapter.addAll(usersList);
+//
+//            }
+//
+//        });
+//    }
 
 }
