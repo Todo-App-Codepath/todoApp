@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.chorewheel.Fragments.AddTaskFragment;
+import com.example.chorewheel.Fragments.EditUserFragment;
 import com.example.chorewheel.adapters.MemberSelectorAdapter;
 import com.example.chorewheel.models.Members;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected List <ParseUser> members;
     protected RecyclerView rvSelector;
 
+    final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.menuLogout) {
             ParseUser.logOut();
             ParseUser currentUser = ParseUser.getCurrentUser();
@@ -127,9 +128,15 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
         }
+        else if (item.getItemId() == R.id.editProfileTab) {
+            //EditUserFragment editUserFragment = EditUserFragment.newInstance("edit profile");
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction()
+                    .add(android.R.id.content, new EditUserFragment())
+                    .commit();
+        }
         return true;
     }
-
 
     // query for tasks of all members
     protected void queryMyTasks(){
@@ -185,5 +192,4 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
 }
