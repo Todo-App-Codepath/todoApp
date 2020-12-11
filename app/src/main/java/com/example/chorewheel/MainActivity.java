@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.chorewheel.Fragments.AddTaskFragment;
-import com.example.chorewheel.adapters.MemberSelectorAdapter;
 import com.example.chorewheel.adapters.MemberSelectorAdapter1;
 import com.example.chorewheel.models.Members;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GetTasks{
     protected RecyclerView rvTasksList;
     protected TaskAdapter taskAdapter;
     private static final String TAG = "MainActivity";
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeContainer;
     FloatingActionButton addTask;
     protected MemberSelectorAdapter1 selectorAdapter;
-    protected List <Object> members;
+    protected List<Object> members;
     protected RecyclerView rvSelector;
 
 
@@ -59,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
         members = new ArrayList<>();
         rvSelector = findViewById(R.id.rvMembersSelector);
-        selectorAdapter = new MemberSelectorAdapter1(this, members);
+        selectorAdapter = new MemberSelectorAdapter1(this, members, this);
 
 
         // swipe refresh layout
-        swipeContainer =findViewById(R.id.swipeContainer);
+        swipeContainer = findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-      
+
         //set up task adapter 
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
@@ -112,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -134,22 +132,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // query for tasks of all members
-    protected void queryMyTasks(){
+    // query for curr user tasks
+    protected void queryMyTasks() {
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
         query.include("User");
         ParseUser curr_user = ParseUser.getCurrentUser();
-        query.whereEqualTo("userID",curr_user ).addAscendingOrder("dueDate");
+        query.whereEqualTo("userID", curr_user).addAscendingOrder("dueDate");
         //TODO add group member filter here
         query.setLimit(20);
 //        query.addDescendingOrder(Task.KEY_DUE_DATE);
         query.findInBackground(new FindCallback<Task>() {
             @Override
             public void done(List<Task> tasks, ParseException e) {
-                if (e!=null){
+                if (e != null) {
                     Log.e(TAG, "Issues with getting tasks", e);
                     return;
-                }else{
+                } else {
                     // For any test statements
                 }
                 taskAdapter.clear();
@@ -161,29 +159,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // query all members and add a member oject
-    protected void queryMembers(){
+    protected void queryMembers() {
         final ParseUser user = ParseUser.getCurrentUser();
         Log.i("test", user.getParseObject("GroupID").getObjectId());
-        ParseObject gObj= user.getParseObject("GroupID");
+        ParseObject gObj = user.getParseObject("GroupID");
         ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         query.include("User");
         query.include("GroupID");
-        query.whereEqualTo("GroupID",gObj );
+        query.whereEqualTo("GroupID", gObj);
         //TODO add group member filter here
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> usersList, ParseException e) {
-                if (e!=null){
+                if (e != null) {
                     Log.e(TAG, "Issues with getting users", e);
                     return;
-                }else{
+                } else {
                     // For any test statements
                     Log.i("test", "got the users");
                 }
                 //remove the user in the list
-                for (Iterator<ParseUser> iterator = usersList.iterator(); iterator.hasNext();){
+                for (Iterator<ParseUser> iterator = usersList.iterator(); iterator.hasNext(); ) {
                     ParseObject object = iterator.next();
-                    if (object.getObjectId().equals(user.getObjectId())){
+                    if (object.getObjectId().equals(user.getObjectId())) {
                         iterator.remove();
                     }
                 }
@@ -191,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 usersList.add(0, user);
                 List<Object> listOfUsers = new ArrayList<>();
 
-                if (usersList.size()>1){
+                if (usersList.size() > 1) {
                     Members membersItem = new Members(usersList);
                     listOfUsers.add(membersItem);
                 }
@@ -203,38 +201,56 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-//    protected void queryMembers(){
-//        final ParseUser user = ParseUser.getCurrentUser();
-//        Log.i("test", user.getParseObject("GroupID").getObjectId());
-//        ParseObject gObj= user.getParseObject("GroupID");
-//        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
-//        query.include("User");
-//        query.include("GroupID");
-//        query.whereEqualTo("GroupID",gObj );
-//        //TODO add group member filter here
-//        query.findInBackground(new FindCallback<ParseUser>() {
-//            @Override
-//            public void done(List<ParseUser> usersList, ParseException e) {
-//                if (e!=null){
-//                    Log.e(TAG, "Issues with getting users", e);
-//                    return;
-//                }else{
-//                    // For any test statements
-//                    Log.i("test", "got the users");
-//                }
-//                //adding current user as the first item in the list
-//                for (int i = 0; i <usersList.size(); i++ ){
-//                    if (usersList.get(i).getObjectId().equals(user.getObjectId())){
-//                        usersList.remove(i);
-//                    }
-//                }
-//                usersList.add(0, user);
-//                selectorAdapter.clear();
-//                selectorAdapter.addAll(usersList);
-//
-//            }
-//
-//        });
-//    }
 
+    @Override
+   public void queryUserTasks(ParseUser user) {
+        ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+        query.include("User");
+        query.whereEqualTo("userID", user).addAscendingOrder("dueDate");
+        //TODO add group member filter here
+        query.setLimit(20);
+//        query.addDescendingOrder(Task.KEY_DUE_DATE);
+        query.findInBackground(new FindCallback<Task>() {
+            @Override
+            public void done(List<Task> tasks, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issues with getting tasks", e);
+                    return;
+                } else {
+                    // For any test statements
+                }
+                taskAdapter.clear();
+                taskAdapter.addAll(tasks);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+    }
+    @Override
+    public void queryAllMemberTasks(){
+//        https://guides.codepath.com/android/Troubleshooting-Common-Issues-with-Parse
+//        https://stackoverflow.com/questions/29186454/relational-query-in-parse
+
+        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery("_User");
+        ParseObject groupID = ParseUser.getCurrentUser().getParseObject("GroupID");
+        innerQuery.whereEqualTo("GroupID",groupID );
+        ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+            query.whereMatchesQuery("userID", innerQuery);
+            query.addAscendingOrder("dueDate");
+            query.findInBackground(new FindCallback<Task>() {
+                @Override
+                public void done(List<Task> tasks, ParseException e) {
+                    if (e != null){
+                        Log.e(TAG, "Issues with getting tasks", e);
+                        return;
+                    }else{
+
+                    }
+                    taskAdapter.clear();
+                    taskAdapter.addAll(tasks);
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+    }
 }
+

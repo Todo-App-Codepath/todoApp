@@ -46,11 +46,23 @@
         android:id="@+id/tvTaskDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTaskName"
+        android:layout_below="@+id/tvUsername"
         android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:textAlignment="textEnd"
         android:textColor="#474545"
         tools:text="Due By 5/12/2020" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTaskName"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Edd" />
 </RelativeLayout>
