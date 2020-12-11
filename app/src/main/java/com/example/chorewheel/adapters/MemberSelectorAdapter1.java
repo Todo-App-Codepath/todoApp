@@ -1,18 +1,23 @@
 package com.example.chorewheel.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.chorewheel.GetTasks;
+import com.example.chorewheel.MainActivity;
 import com.example.chorewheel.R;
 import com.example.chorewheel.models.Members;
 import com.parse.ParseException;
@@ -22,15 +27,17 @@ import com.parse.ParseUser;
 import java.util.List;
 
 public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private GetTasks getTaskInterface;
+    private int selected_position = 1;
     private final int USER = 0, GROUP_IMAGE = 1;
 
     Context context;
     List<Object> objectsList;
 
-    public MemberSelectorAdapter1(Context context, List<Object> objectsList) {
+    public MemberSelectorAdapter1(Context context, List<Object> objectsList, GetTasks getTaskInterface) {
         this.context = context;
         this.objectsList = objectsList;
+        this.getTaskInterface = getTaskInterface;
     }
 
     @Override
@@ -86,7 +93,12 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private void bindMemberIcon(ViewMember viewMember, int position) throws ParseException {
+    private void bindMemberIcon(final ViewMember viewMember, final int position) throws ParseException {
+        if (selected_position == position){
+            viewMember.rlIconContainer.setBackground(ContextCompat.getDrawable(context, R.drawable.user_selector));
+        }else{
+            viewMember.rlIconContainer.setBackgroundResource(0);
+        }
         ParseUser curr_user = ParseUser.getCurrentUser();
         ParseUser user = (ParseUser) objectsList.get(position);
         if (user!=null) {
@@ -103,11 +115,31 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
                 Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(viewMember.ivMemberImage);
             }
         }
+        viewMember.rlIconContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser user = (ParseUser)objectsList.get(position);
+                getTaskInterface.queryUserTasks(user);
+                if(selected_position == position){
+                    selected_position = -1;
+                    notifyDataSetChanged();
+                    return;
+                }
+                selected_position = position;
+                notifyDataSetChanged();
+            }
+        });
+
     }
 
 
-
-    private void bindGroupIcon(ViewGroupHolder viewGroupHolder, int position) throws ParseException {
+    // bind group member icons
+    private void bindGroupIcon(final ViewGroupHolder viewGroupHolder, final int position) throws ParseException {
+        if (selected_position == position){
+            viewGroupHolder.rlGroupContainer.setBackground(ContextCompat.getDrawable(context, R.drawable.user_selector));
+        }else{
+            viewGroupHolder.rlGroupContainer.setBackgroundResource(0);
+        }
         Members members = (Members)objectsList.get(position);
             List<ParseUser> users;
             users = members.getUserList();
@@ -152,7 +184,21 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(image3.getFile()).transform(new CircleCrop()).into(viewGroupHolder.ivMemberImage3);
                 }
             }
-
+            viewGroupHolder.rlGroupContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Members members_list = (Members)objectsList.get(position);
+                    getTaskInterface.queryAllMemberTasks();
+                    if(selected_position == position){
+                        selected_position = -1;
+                        notifyDataSetChanged();
+                        return;
+                        //reference https://stackoverflow.com/questions/50872380/how-to-select-and-de-select-an-item-in-recyclerview-how-to-highlight-selected-i
+                    }
+                    selected_position = position;
+                    notifyDataSetChanged();
+                }
+            });
     }
 
     @Override
@@ -174,25 +220,32 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
     public class ViewGroupHolder extends RecyclerView.ViewHolder{
+        RelativeLayout rlGroupContainer;
         ImageView ivMemberImage1;
         ImageView ivMemberImage2;
         ImageView ivMemberImage3;
 
         public ViewGroupHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setClickable(true);
             ivMemberImage1 = itemView.findViewById(R.id.ivMemberImage1);
             ivMemberImage2 = itemView.findViewById(R.id.ivMemberImage2);
             ivMemberImage3 = itemView.findViewById(R.id.ivMemberImage3);
+            rlGroupContainer = itemView.findViewById(R.id.rlGroupContainer);
+
         }
     }
     public class ViewMember extends RecyclerView.ViewHolder{
         ImageView ivMemberImage;
         TextView tvMemberName;
+        RelativeLayout rlIconContainer;
 
         public ViewMember(@NonNull View itemView) {
             super(itemView);
+            itemView.setClickable(true);
             ivMemberImage = itemView.findViewById(R.id.iv_member_icon_hrv);
             tvMemberName = itemView.findViewById(R.id.tvMemberName_hrv);
+            rlIconContainer = itemView.findViewById(R.id.rlIconContainer);
         }
     }
 

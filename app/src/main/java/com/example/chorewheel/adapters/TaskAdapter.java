@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,16 +24,19 @@ import com.example.chorewheel.MainActivity;
 import com.example.chorewheel.R;
 import com.example.chorewheel.models.Task;
 import com.example.chorewheel.models.User;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
@@ -54,7 +58,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Task task = tasks.get(position);
-        holder.bind(task);
+        try {
+            holder.bind(task);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -79,6 +87,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         private CheckBox cbCheckBox;
         private TextView tvTaskDueDate;
         private ImageView ivProfileImage;
+        private TextView tvUsername;
         private RelativeLayout taskContainer;
 
         public ViewHolder(@NonNull View itemView) {
@@ -88,12 +97,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             tvTaskDueDate = itemView.findViewById(R.id.tvTaskDueDate);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             taskContainer = itemView.findViewById(R.id.taskContainer);
+            tvUsername = itemView.findViewById(R.id.tvUsername);
         }
 
-        public void bind(final Task task) {
+        public void bind(final Task task) throws ParseException {
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getFormattedDate());
+            tvUsername.setText(task.getUser().fetchIfNeeded().getString("firstName"));
 
             // for placing profile image into user icon on task
             ParseFile image = null;
@@ -108,6 +119,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
             } catch (ParseException e) {
                 e.printStackTrace();
+            }
+            if (task.getChecked()){
+                itemView.setBackgroundResource(R.drawable.faded_out_layout);
+            }else{
+                itemView.setBackgroundResource(R.drawable.background_layout);
             }
 
             // View Info / Edit Task
@@ -140,15 +156,37 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                                 notifyItemRemoved(getAdapterPosition());
                                 notifyItemRangeChanged(getAdapterPosition(),tasks.size());
                             }
-
-
-
                             fm.unregisterFragmentLifecycleCallbacks(this);
                         }
                     }, false);
                 }
             });
 
+            cbCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                    if (isChecked){
+                        itemView.setBackgroundResource(R.drawable.faded_out_layout);
+                    }else{
+                        itemView.setBackgroundResource(R.drawable.background_layout);
+                    }
+//                    ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+//                    query.getInBackground(task.getObjectId(), new GetCallback<Task>() {
+//                        @Override
+//                        public void done(Task object, ParseException e) {
+//                            if (e!=null){
+//                                Log.e("UpdateTask", "Issues with getting tasks", e);
+//                            }else{
+//                                object.put("checked", isChecked);
+//                                object.saveInBackground();
+//                            }
+//
+//                        }
+//                    });
+                    task.put("checked", isChecked);
+                    task.saveInBackground();
+                }
+            });
 
 
 
