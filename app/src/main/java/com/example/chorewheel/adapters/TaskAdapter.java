@@ -101,10 +101,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
 
         public void bind(final Task task) throws ParseException {
+            if (task.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+                tvUsername.setText("My Task");
+            }else{
+                tvUsername.setText(task.getUser().fetchIfNeeded().getString("firstName"));
+            }
             tvTaskName.setText(task.getTaskName());
             cbCheckBox.setChecked(task.getChecked());
             tvTaskDueDate.setText(task.getFormattedDate());
-            tvUsername.setText(task.getUser().fetchIfNeeded().getString("firstName"));
+
 
             // for placing profile image into user icon on task
             ParseFile image = null;

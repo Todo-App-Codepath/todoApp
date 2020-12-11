@@ -53,6 +53,7 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
+        // check if the item in array is a member class or a Parse user
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case GROUP_IMAGE:
@@ -68,6 +69,7 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
         return viewHolder;
     }
 
+    //bind members
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()){
@@ -94,6 +96,7 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void bindMemberIcon(final ViewMember viewMember, final int position) throws ParseException {
+        //check if the current position is the selected position and change the background color if selected or not selected
         if (selected_position == position){
             viewMember.rlIconContainer.setBackground(ContextCompat.getDrawable(context, R.drawable.user_selector));
         }else{
@@ -101,6 +104,7 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
         }
         ParseUser curr_user = ParseUser.getCurrentUser();
         ParseUser user = (ParseUser) objectsList.get(position);
+
         if (user!=null) {
             Log.i("user", user.toString());
             if (objectsList.get(position)==curr_user){
@@ -108,6 +112,7 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
             }else {
                 viewMember.tvMemberName.setText(user.getString("firstName"));
             }
+            // add an icon to the user images
             ParseFile image1= user.getParseFile("image");
             if (image1 != null){
                 Glide.with(context).load(image1.getFile()).transform(new CircleCrop()).into(viewMember.ivMemberImage);
@@ -115,6 +120,7 @@ public class MemberSelectorAdapter1 extends RecyclerView.Adapter<RecyclerView.Vi
                 Glide.with(context).load(R.drawable.ic_user_img).transform(new CircleCrop()).into(viewMember.ivMemberImage);
             }
         }
+        // if item is clicked change the background to indicate it is selected and query the user's tasks
         viewMember.rlIconContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
