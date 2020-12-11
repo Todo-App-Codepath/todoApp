@@ -155,57 +155,68 @@ public class InfoTaskFragment extends DialogFragment {
     private List<ParseUser> getUserID() {
         final ParseUser user = ParseUser.getCurrentUser();
         final List<ParseUser> groupMembers = new ArrayList<>();
-        Log.i("test", user.getParseObject("GroupID").getObjectId());
+//            Log.i("test", user.getParseObject("GroupID").getObjectId());
         ParseObject gObj = user.getParseObject("GroupID");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
-        query.include("User");
-        query.include("GroupID");
-        query.whereEqualTo("GroupID", gObj);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> usersList, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issues with getting users", e);
-                    return;
-                } else {
-                    // For any test statements
-                    for (int i = 0; i < usersList.size(); i++) {
-                        groupMembers.add(usersList.get(i));
+        if (gObj !=null) {
+
+            ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+            query.include("User");
+            query.include("GroupID");
+            query.whereEqualTo("GroupID", gObj);
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> usersList, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Issues with getting users", e);
+                        return;
+                    } else {
+                        // For any test statements
+                        for (int i = 0; i < usersList.size(); i++) {
+                            groupMembers.add(usersList.get(i));
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            groupMembers.add(ParseUser.getCurrentUser());
+        }
         return groupMembers;
     }
+
 
     protected ArrayList<String> userList () {
         final ParseUser user = ParseUser.getCurrentUser();
         final ArrayList<String> members = new ArrayList<>();
-        Log.i("test", user.getParseObject("GroupID").getObjectId());
-        ParseObject gObj= user.getParseObject("GroupID");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
-        query.include("User");
-        query.include("GroupID");
-        query.whereEqualTo("GroupID",gObj );;
-        //TODO add group member filter here
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> usersList, ParseException e) {
-                if (e!=null){
-                    Log.e(TAG, "Issues with getting users", e);
-                    return;
-                }else{
-                    // For any test statements
-                    for (int i = 0; i < usersList.size(); i++) {
-                        members.add(usersList.get(i).getUsername());
+        ParseObject gObj = user.getParseObject("GroupID");
+        if (gObj != null) {
+            ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+            query.include("User");
+            query.include("GroupID");
+            query.whereEqualTo("GroupID", gObj);
+            ;
+            //TODO add group member filter here
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> usersList, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Issues with getting users", e);
+                        return;
+                    } else {
+                        // For any test statements
+                        for (int i = 0; i < usersList.size(); i++) {
+                            members.add(usersList.get(i).getUsername());
+                        }
+                        Log.i("test", "got the users");
                     }
-                    Log.i("test", "got the users");
                 }
-            }
-        });
+            });
 
+
+        }else{
+            members.add(ParseUser.getCurrentUser().getUsername());
+
+        }
         return members;
     }
-
 
 }
