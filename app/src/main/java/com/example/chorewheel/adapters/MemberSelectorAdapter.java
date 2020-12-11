@@ -20,6 +20,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+// old selector adapter
 public class MemberSelectorAdapter extends RecyclerView.Adapter<MemberSelectorAdapter.ViewHolder> {
     List<ParseUser> usersList;
     Context context;

@@ -23,8 +23,12 @@ public class ParseApplication extends Application {
 
         // This should be moved to server side code if possible
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("LhKZqn1Q7IbCpKCz2bOJNigBF9OIF2HIMdCV0bvg")
-                .clientKey("hZgY8cljPXVK0yzogHdEMSZVSRAC4t9GjLMpq7Od")
+                // old api server
+//                .applicationId("LhKZqn1Q7IbCpKCz2bOJNigBF9OIF2HIMdCV0bvg")
+//                .clientKey("hZgY8cljPXVK0yzogHdEMSZVSRAC4t9GjLMpq7Od")
+//                .server("https://parseapi.back4app.com")
+                .applicationId("Yq6Tz9P8PYaFPzbpAWDEfKtUlLWVP9lHdCO1oZIx")
+                .clientKey("kfQlf11pkPap9hYs1andh92pJ1uaoKVc23Hy9lku")
                 .server("https://parseapi.back4app.com")
                 .build()
         );

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements GetTasks{
 
 
         // set up adapters and recycler views
-
         allTasks = new ArrayList<>();
         rvTasksList = findViewById(R.id.rvTaskList);
         taskAdapter = new TaskAdapter(this, allTasks);
@@ -74,14 +73,12 @@ public class MainActivity extends AppCompatActivity implements GetTasks{
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        //set up task adapter 
+        //set up task adapter and recyclerview
         rvTasksList.setAdapter(taskAdapter);
         rvTasksList.setLayoutManager(new LinearLayoutManager(this));
 
         rvSelector.setAdapter(selectorAdapter);
         rvSelector.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        //creating recyclerviews
 
         queryMyTasks();
         queryMembers();
@@ -120,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements GetTasks{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.menuLogout) {
             ParseUser.logOut();
             ParseUser currentUser = ParseUser.getCurrentUser();
@@ -160,48 +156,56 @@ public class MainActivity extends AppCompatActivity implements GetTasks{
 
     // query all members and add a member oject
     protected void queryMembers() {
+
         final ParseUser user = ParseUser.getCurrentUser();
-        Log.i("test", user.getParseObject("GroupID").getObjectId());
         ParseObject gObj = user.getParseObject("GroupID");
-        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
-        query.include("User");
-        query.include("GroupID");
-        query.whereEqualTo("GroupID", gObj);
-        //TODO add group member filter here
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> usersList, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issues with getting users", e);
-                    return;
-                } else {
-                    // For any test statements
-                    Log.i("test", "got the users");
-                }
-                //remove the user in the list
-                for (Iterator<ParseUser> iterator = usersList.iterator(); iterator.hasNext(); ) {
-                    ParseObject object = iterator.next();
-                    if (object.getObjectId().equals(user.getObjectId())) {
-                        iterator.remove();
+        Log.i("here", "here");
+        if (gObj != null) {
+            ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
+            query.include("User");
+            query.include("GroupID");
+            query.whereEqualTo("GroupID", gObj);
+            //TODO add group member filter here
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> usersList, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Issues with getting users", e);
+                        return;
+                    } else {
+                        // For any test statements
+                        Log.i("test", "got the users");
                     }
+                    //remove the user in the list
+                    for (Iterator<ParseUser> iterator = usersList.iterator(); iterator.hasNext(); ) {
+                        ParseObject object = iterator.next();
+                        if (object.getObjectId().equals(user.getObjectId())) {
+                            iterator.remove();
+                        }
+                    }
+                    // add user to the front of the list
+                    usersList.add(0, user);
+                    List<Object> listOfUsers = new ArrayList<>();
+
+                    if (usersList.size() > 1) {
+                        Members membersItem = new Members(usersList);
+                        listOfUsers.add(membersItem);
+                    }
+                    listOfUsers.addAll(usersList);
+                    selectorAdapter.clear();
+                    selectorAdapter.addAll(listOfUsers);
                 }
-                // add user to the front of the list
-                usersList.add(0, user);
-                List<Object> listOfUsers = new ArrayList<>();
 
-                if (usersList.size() > 1) {
-                    Members membersItem = new Members(usersList);
-                    listOfUsers.add(membersItem);
-                }
-                listOfUsers.addAll(usersList);
-                selectorAdapter.clear();
-                selectorAdapter.addAll(listOfUsers);
-
-            }
-
-        });
+            });
+        }else{
+            List<Object> listOfUsers = new ArrayList<>();
+            listOfUsers.add(user);
+            selectorAdapter.clear();
+            selectorAdapter.addAll(listOfUsers);
+        }
     }
 
+    //used in the memberSelectorAdapter
     @Override
    public void queryUserTasks(ParseUser user) {
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
@@ -220,7 +224,10 @@ public class MainActivity extends AppCompatActivity implements GetTasks{
                     // For any test statements
                 }
                 taskAdapter.clear();
-                taskAdapter.addAll(tasks);
+                if (tasks.size()>0){
+                    taskAdapter.addAll(tasks);
+                }
+
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -233,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements GetTasks{
 
         ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery("_User");
         ParseObject groupID = ParseUser.getCurrentUser().getParseObject("GroupID");
+//        if (groupID != null)
         innerQuery.whereEqualTo("GroupID",groupID );
         ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
             query.whereMatchesQuery("userID", innerQuery);
