@@ -45,6 +45,7 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 ## SPRINT 3 GIFS
 - As a user I want to see other user's tasks, filter task
 - As a user I want to be able to edit a task.
+<img src="walkthrough4.gif" width=600>
 
 ## SPRINT 2 GIFS
 - As a user I want to see other members on my task list page
