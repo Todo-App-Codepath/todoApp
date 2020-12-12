@@ -29,11 +29,9 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 - [X] As a user I want to add a due date for the tasks
 - [X] As a user I want to be able to create an account
 - [X] As a user I want to be able sign in and sign out
-- [ ] As a user I want to see other user's tasks, filter task
-- [ ] As a user I want to be able to edit a task
-- [ ] As a user I want to be able to add an avatar to my profile image
+- [X] As a user I want to see other user's tasks, filter task
+- [X] As a user I want to be able to edit a task
 - [X] As a user I want to be able to assign a task to a member
-- [ ] As a user I want to get notified of a task that's due
 - [X] As a user I want to see other members on my task list page
 
 
@@ -41,6 +39,12 @@ Purpose: A todo list app that can be used to between a group of people to keep t
 
 - [ ] As a user I want to be able to view items offline(optional)
 - [ ] As a user I want to be able to view items in a calendar.
+- [ ] As a user I want to be able to add an avatar to my profile image
+- [ ] As a user I want to get notified of a task that's due
+
+## SPRINT 3 GIFS
+- As a user I want to see other user's tasks, filter task
+- As a user I want to be able to edit a task.
 
 ## SPRINT 2 GIFS
 - As a user I want to see other members on my task list page
